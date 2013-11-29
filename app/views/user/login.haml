@@ -1,0 +1,30 @@
+%h2 活动通
+%div(style="background:#F5F5F5" class="modal fade in")
+  .nav-header
+    %h4 用户登录
+    .right
+      =link_to  "用户注册",:action => "register"
+  %br
+  %br
+  %div(class="index-login" style="text-align:center;")
+    %div(class="input-prepend" )
+      %span(class="add-on" style="width:100px" )帐 号
+      %input(type="text" )
+    %br
+    %br
+    %div(class="input-prepend" )
+      %span(class="add-on" style="width:100px" ) 密 码
+      %input(type="text" )
+  .nav-header
+    .right
+      =link_to  "忘记密码",:action => "reset_key"
+  %br
+    %div(style="text-align:center;")
+      %button(class="btn btn-primary" )登 录
+  %br
+
+
+
+
+
+

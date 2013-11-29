@@ -1,0 +1,33 @@
+%h2活动通
+%div(style="background:#F5F5F5" class="modal fade in")
+  .nav-header
+    %h4 新用户注册
+    .right
+      =link_to  "用户登录",:action => "login"
+  %br
+  %br
+  %div(class="index-login" style="text-align:center;")
+    %div(class="input-prepend" )
+      %span(class="add-on" style="width:100px" )帐      号
+      %input(type="text" )
+
+    %div(class="input-prepend" )
+      %span(class="add-on" style="width:100px") 请设置密码
+      %input(type="text" )
+
+    %div(class="input-prepend" )
+      %span(class="add-on" style="width:100px" )  请确认密码
+      %input(type="text" )
+
+    %div(class="input-prepend" )
+      %span(class="add-on" style="width:100px") 忘记密码问题
+      %input(type="text" )
+
+    %div(class="input-prepend" )
+      %span(class="add-on" style="width:100px") 忘记密码答案
+      %input(type="text" )
+
+  %br
+    %div(style="text-align:center;")
+      %button(class="btn btn-primary" )注 册
+  %br
