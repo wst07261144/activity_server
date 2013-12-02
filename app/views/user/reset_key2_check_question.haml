@@ -1,0 +1,32 @@
+%h2 活动通
+%div(style="background:#F5F5F5" class="modal fade in")
+  .nav-header
+    %h4重置密码
+    .right
+      =link_to  "用户登录",:action => "login"
+  %br
+  %br
+  %div(class="index-login" style="text-align:center;")
+    .input-prepend
+      .add-on
+        %lable(style="width:500px") 忘记密码问题
+      %input(type="text" placeholder=@question disabled)
+    =form_for(:user) do |f|
+      .input-prepend
+        = f.label :'忘记密码答案' ,:class=>"add-on"
+        = f.text_field :answer ,:type=>"text"
+      %br
+      .label-warning
+        =flash.now[:notice5]
+      %br
+      %div(style="text-align:center")
+        = f.submit "下 一 步", :class=> "btn btn-primary"
+      %br
+
+
+
+
+
+
+
+

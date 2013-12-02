@@ -9,19 +9,21 @@ class UserController < ApplicationController
   def register
   end
 
-  def reset_key1
+  def reset_key1_check_account
   end
 
-  def reset_key2
+  def reset_key2_check_question
+    @question = session[:question]
   end
 
   def handle_reset_key1
     @user=User.find_by_name params[:user][:name]
     if @user
-      redirect_to '/user/reset_key2'
+      session[:question] = @user.forget_key_question
+      redirect_to '/user/reset_key2_check_question'
     else
       flash.now[:notice4]='该账户名不存在'
-      render "reset_key1"
+      render "reset_key1_check_account"
     end
   end
 
