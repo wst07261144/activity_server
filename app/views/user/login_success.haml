@@ -1,5 +1,8 @@
 .nav-header
   .right
-    %p1 你好,
+    %p1
+      %span 你好,
+      %sapn
+        = @user.name
     =link_to  "退出",:action => "login"
 %h2 活动通

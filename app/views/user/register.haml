@@ -7,27 +7,26 @@
   %br
   %br
   %div(class="index-login" style="text-align:center;")
-    %div(class="input-prepend" )
-      %span(class="add-on" style="width:100px" )帐      号
-      %input(type="text" )
-
-    %div(class="input-prepend" )
-      %span(class="add-on" style="width:100px") 请设置密码
-      %input(type="text" )
-
-    %div(class="input-prepend" )
-      %span(class="add-on" style="width:100px" )  请确认密码
-      %input(type="text" )
-
-    %div(class="input-prepend" )
-      %span(class="add-on" style="width:100px") 忘记密码问题
-      %input(type="text" )
-
-    %div(class="input-prepend" )
-      %span(class="add-on" style="width:100px") 忘记密码答案
-      %input(type="text" )
-
-  %br
-    %div(style="text-align:center;")
-      %button(class="btn btn-primary" )注 册
-  %br
+    =form_for(:user) do |f|
+      .input-prepend
+        = f.label :'帐   号' ,:class=>"add-on",:style=>"width:100px"
+        = f.text_field :name ,:type=>"text"
+      .input-prepend
+        = f.label :'请设置密码' ,:class=>"add-on",:style=>"width:100px"
+        = f.text_field :password1 ,:type=>"password"
+      .input-prepend
+        = f.label :'请确认密码' ,:class=>"add-on",:style=>"width:100px"
+        = f.text_field :password2 ,:type=>"password"
+      .input-prepend
+        = f.label :'忘记密码问题' ,:class=>"add-on",:style=>"width:100px"
+        = f.text_field :question ,:type=>"text"
+      .input-prepend
+        = f.label :'忘记密码答案' ,:class=>"add-on",:style=>"width:100px"
+        = f.text_field :answer ,:type=>"text"
+      .label-warning
+        =flash.now[:notice1]
+        =flash.now[:notice2]
+        =flash.now[:notice3]
+      %div(style="text-align:center;")
+      %br
+        = f.submit "注  册", class: "btn btn-primary"

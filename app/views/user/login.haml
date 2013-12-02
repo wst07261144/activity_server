@@ -8,19 +8,21 @@
   %br
   %div(class="index-login" style="text-align:center;")
     %div(class="input-prepend" )
-      %span(class="add-on" style="width:100px" )帐 号
-      %input(type="text" )
-    %br
-    %br
-    %div(class="input-prepend" )
-      %span(class="add-on" style="width:100px" ) 密 码
-      %input(type="text" )
+      = form_for(:user) do |f|
+        = f.label '帐  号',:class=>"add-on"
+        = f.text_field :name
+        %br
+        %br
+        = f.label "密  码",:class=>"add-on"
+        = f.text_field :password ,:type=>"password"
+        %div(style="text-align:center;")
+          %br
+          = f.submit "登  录", class: "btn btn-primary"
+    .label-warning
+      =flash.now[:notice]
   .nav-header
     .right
       =link_to  "忘记密码",:action => "reset_key"
-  %br
-    %div(style="text-align:center;")
-      %button(class="btn btn-primary" )登 录
   %br
 
 
