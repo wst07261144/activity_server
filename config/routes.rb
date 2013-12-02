@@ -1,10 +1,16 @@
 ActivityServer::Application.routes.draw do
 
+  resource :users
+
   get "user/register"
   get "user/logout"
   get "user/login"
   get "user/login_success"
   get "user/reset_key"
+
+  post "user/login" => 'user#handle_login'
+  post "user/register"=>'user#judge_input_legal'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
