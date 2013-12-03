@@ -16,9 +16,37 @@ class UserController < ApplicationController
     @question = session[:question]
   end
 
+  def reset_key3_to_reset_key
+  end
+
+  def handle_reset_key3
+    if params[:user][:password1]==params[:user][:password2]
+       @user=User.find_by_name session[:account]
+       @user.password= params[:user][:password1]
+       if @user.save
+         redirect_to '/user/login'
+       end
+    else
+      flash.now[:notice6]='两次密码输入不一致，请重新输入'
+      render "reset_key3_to_reset_key"
+    end
+  end
+
+  def handle_reset_key2
+    @question = session[:question]
+    if session[:answer]==params[:user][:answer]
+      redirect_to '/user/reset_key3_to_reset_key'
+    else
+      flash.now[:notice5]='忘记密码答案错误'
+      render "reset_key2_check_question"
+    end
+  end
+
+
   def handle_reset_key1
     @user=User.find_by_name params[:user][:name]
     if @user
+      session[:account]= @user.name
       session[:question] = @user.forget_key_question
       redirect_to '/user/reset_key2_check_question'
     else
