@@ -9,6 +9,10 @@ class UserController < ApplicationController
   def register
   end
 
+  def manage_index
+    @user = User.where(:admin => 'false')
+  end
+
   def reset_key1_check_account
   end
 
@@ -46,6 +50,7 @@ class UserController < ApplicationController
   def handle_reset_key1
     @user=User.find_by_name params[:user][:name]
     if @user
+      session[:answer]=@user.forget_key_answer
       session[:account]= @user.name
       session[:question] = @user.forget_key_question
       redirect_to '/user/reset_key2_check_question'
@@ -99,7 +104,8 @@ class UserController < ApplicationController
   def create
     user_params_={"name" => params[:user][:name], "password" => params[:user][:password1],
                   "forget_key_question" => params[:user][:question],
-                  "forget_key_answer" => params[:user][:answer]}
+                  "forget_key_answer" => params[:user][:answer],
+                  "admin"=>'false'}
     @user = User.new(user_params_)
     if @user.save
       session[:user]= User.find_by_name params[:user][:name]
@@ -114,8 +120,12 @@ class UserController < ApplicationController
     password = params[:user][:password]
     @user = User.find_by_name_and_password username, password
     if !@user.nil?
-      redirect_to '/user/login_success' #redirect_to  user_login_success_path
-      session[:user] = @user
+      if @user.name!="admin"
+        redirect_to '/user/login_success' #redirect_to  user_login_success_path
+        session[:user] = @user
+      else
+        redirect_to '/user/manage_index'
+      end
     else
       flash.now[:notice]= '用户名或者密码不正确'
       render 'login'

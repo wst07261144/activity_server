@@ -1,0 +1,27 @@
+.nav-header
+  .right
+    %p1
+      %span 你好,管理员
+    =link_to  "退出",:action => "login"
+%h2 活动通
+%br
+%div(class='yuanjiao'style="margin:auto;width:80%;background:#F6F6F5;padding:1px")
+  %h5 用户管理
+%table(class="table table-hover" style="margin:auto; width:80%")
+  %thead
+    %tr
+      %td 编号
+      %td 用户名
+      %td 操作
+  %tbody
+    -@user.each do |t|
+      %tr
+        %td
+          =t.id-1
+        %td
+          =t.name
+        %td
+          =link_to '删除' ,:action => "login"
+          =link_to '修改密码',:action => "login"
+
+
