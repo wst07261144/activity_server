@@ -1,6 +1,5 @@
 class UserController < ApplicationController
   # include UserHelper
-  include ActionView::Helpers::TextHelper
   def login
   end
 
