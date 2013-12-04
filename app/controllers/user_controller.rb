@@ -11,8 +11,7 @@ class UserController < ApplicationController
   end
 
   def manage_index
-    @user = User.where(:admin => 'false')
-    @user = User.paginate(page: params[:page], per_page: 10)
+    @user = User.paginate(page: params[:page], per_page: 9).where(:admin => 'false')
   end
 
   def reset_key1_check_account
