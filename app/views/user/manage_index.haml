@@ -8,7 +8,8 @@
 %div(class='yuanjiao'style="margin:auto;width:79%;background:#c0c0c0;padding:1px")
   %h4
     用户管理
-    %button(class="btn" ) 添加用户
+    .btn
+      =link_to "添加用户",:action => "add_account"
 %table(class="table table-hover" style="margin:auto; width:79%")
   %thead
     %tr
