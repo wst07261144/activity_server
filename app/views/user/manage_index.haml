@@ -5,9 +5,9 @@
     =link_to  "退出",:action => "login"
 %h2 活动通
 %br
-%div(class='yuanjiao'style="margin:auto;width:80%;background:#F6F6F5;padding:1px")
+%div(class='yuanjiao'style="margin:auto;width:79%;background:#c0c0c0;padding:1px")
   %h5 用户管理
-%table(class="table table-hover" style="margin:auto; width:80%")
+%table(class="table table-hover" style="margin:auto; width:79%")
   %thead
     %tr
       %td 编号
@@ -16,12 +16,12 @@
   %tbody
     -@user.each do |t|
       %tr
-        %td
+        %td(align="center" style="width:35%; height: 21px;" valign="middle")
           =t.id-1
-        %td
+        %td(align="center" style="width:35%; height: 21px;" valign="middle")
           =t.name
-        %td
+        %td(align="center" style="width:45%; height: 21px;" valign="middle")
           =link_to '删除' ,:action => "login"
           =link_to '修改密码',:action => "login"
-
-
+.right-padding
+  = will_paginate @user

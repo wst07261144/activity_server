@@ -1,5 +1,6 @@
 class UserController < ApplicationController
   # include UserHelper
+  include ActionView::Helpers::TextHelper
   def login
   end
 
@@ -11,6 +12,7 @@ class UserController < ApplicationController
 
   def manage_index
     @user = User.where(:admin => 'false')
+    @user = User.paginate(page: params[:page], per_page: 10)
   end
 
   def reset_key1_check_account
