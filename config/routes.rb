@@ -8,7 +8,7 @@ ActivityServer::Application.routes.draw do
   get "user/reset_key1_check_account"
   get "user/reset_key2_check_question"
   get "user/reset_key3_to_reset_key"
-  get "user/manage_index"
+  get "user/manage_index",:as => "manage_index"
   get "user/add_account"
 
   post "user/login" => 'user#handle_login'
@@ -17,6 +17,10 @@ ActivityServer::Application.routes.draw do
   post "user/reset_key2_check_question"=>'user#handle_reset_key2'
   post "user/reset_key3_to_reset_key"=>'user#handle_reset_key3'
   post "user/add_account"=>"user#judge_input_legal1"
+
+  delete 'user/delete_account/:id'=> 'user#delete_account', :as =>'user'
+
+
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

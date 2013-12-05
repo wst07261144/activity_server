@@ -8,10 +8,11 @@ class UserController < ApplicationController
   end
   def add_account
   end
+
   def delete_account
-
+    User.find(params[:id]).destroy
+    redirect_to manage_index_path
   end
-
 
   def manage_index
     @user = User.paginate(page: params[:page], per_page: 9).where(:admin => 'false')

@@ -17,17 +17,16 @@
       %td 用户名
       %td 操作
   %tbody
+    -counter = 1
     -@user.each do |t|
       %tr
         %td(align="center" style="width:37%" valign="middle")
-          =t.id-1
+          = counter
+          -counter=counter+1
         %td(align="center" style="width:37%" valign="middle")
           =t.name
         %td(align="center" style="width:45%" valign="middle")
-          -#= link_to '删除',{:controller => :account,:action=>:logout},:method=>:post
-          -#= link_to '删除',:action=>:logout,:method=>:post
-          = link_to "删除" ,t ,:method => delete,:confirm => "您确实要删除"+t.name+"?"
-          -#=link_to '删除' , method: :delete, data: { confirm: 'Are you sure?' }
+          =link_to "删除",t, method: :delete, data: { confirm: "您确实要删除"+t.name+" ?" }
           =link_to '修改密码',:action => "login"
 .right-padding
   = will_paginate @user
