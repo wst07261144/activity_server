@@ -2,12 +2,16 @@ class UserController < ApplicationController
   # include UserHelper
   def login
   end
-
   def logout
   end
-
   def register
   end
+  def add_account
+  end
+  def delete_account
+
+  end
+
 
   def manage_index
     @user = User.paginate(page: params[:page], per_page: 9).where(:admin => 'false')
@@ -65,8 +69,45 @@ class UserController < ApplicationController
   end
 
   def judge_input_legal
+    session[:add_or_register]="register"
     if user_params
       return judge_input_complete
+    end
+  end
+  def judge_input_legal1
+    session[:add_or_register]="add"
+    if user_params
+      return judge_input_complete1
+    end
+  end
+  def judge_input_complete1
+    p params
+    if params[:user][:name].empty?||params[:user][:question].empty?||
+        params[:user][:answer].empty?||params[:user][:password1].empty?||
+        params[:user][:password2].empty?
+      flash.now[:notice1]= "请将注册信息填写完整"
+      render "add_account"
+    else
+      return judge_key_same1
+    end
+  end
+
+  def judge_key_same1
+    if params[:user][:password1] != params[:user][:password2]
+      flash.now[:notice2]= "两次密码输入不一致，请重新输入"
+      render "add_account"
+    else
+      return judge_name_has_signed1
+    end
+  end
+
+  def judge_name_has_signed1
+    signed_name = User.find_by_name params[:user][:name]
+    if !signed_name.nil?
+      flash.now[:notice3]= "该账号已注册"
+      render "add_account"
+    else
+      return admin_create
     end
   end
 
@@ -101,7 +142,23 @@ class UserController < ApplicationController
     end
   end
 
+  def admin_create
+    session[:add_or_register] = nil
+    user_params_={"name" => params[:user][:name], "password" => params[:user][:password1],
+                  "forget_key_question" => params[:user][:question],
+                  "forget_key_answer" => params[:user][:answer],
+                  "admin"=>'false'}
+    @user = User.new(user_params_)
+    if @user.save
+      session[:user]= User.find_by_name params[:user][:name]
+      redirect_to '/user/manage_index'
+    else
+      redirect_to 'http://baidu.com'
+    end
+  end
+
   def create
+    session[:add_or_register] = nil
     user_params_={"name" => params[:user][:name], "password" => params[:user][:password1],
                   "forget_key_question" => params[:user][:question],
                   "forget_key_answer" => params[:user][:answer],
