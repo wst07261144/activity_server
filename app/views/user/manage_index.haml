@@ -27,6 +27,6 @@
           =t.name
         %td(align="center" style="width:45%" valign="middle")
           =link_to "删除",t, method: :delete, data: { confirm: "您确实要删除"+t.name+" ?" }
-          =link_to '修改密码',:action => "login"
+          =link_to '修改密码',admin_url(id:t.id)
 .right-padding
   = will_paginate @user

@@ -8,6 +8,25 @@ class UserController < ApplicationController
   end
   def add_account
   end
+  def admin_modify_account_key
+    @name=User.find(params[:id]).name
+  end
+  def admin_modify_key
+    p'-----------------------'
+    p params
+    @name=User.find(params[:id]).name
+    if params[:user][:password1]==params[:user][:password2]
+      @user=User.find(params[:id])
+      @user.password=params[:user][:password1]
+      if @user.save
+        redirect_to "manage_index"
+      end
+    else
+      flash.now[:notice1]="两次密码输入不一致，请重新输入"
+      render "admin_modify_account_key"
+    end
+  end
+
 
   def delete_account
     User.find(params[:id]).destroy

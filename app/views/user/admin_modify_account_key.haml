@@ -1,0 +1,29 @@
+.nav-header
+  .right
+    %p1
+      %lable 你好,管理员
+    =link_to  "退出",:action => "login"
+%h2 活动通
+%div(style="background:#F5F5F5;padding:8px")
+  =link_to '首页',:action => 'manage_index'
+  %lable /修改用户密码
+%div(style="background:#F5F5F5;position: relative;" class="modal1")
+  %br
+  %br
+  %div(class="index-login" style="text-align:center;")
+    .input-prepend
+      .add-on
+        %span(style='width:0px') 用 户 帐 号
+      %input(type="text" placeholder=@name   disabled)
+    =form_for(:user) do |f|
+      .input-prepend
+        = f.label :'请设置密码' ,:class=>"add-on"
+        = f.text_field :password1 ,:type=>"password",:placeholder=>"请输入新密码"
+      .input-prepend
+        = f.label :'请确认密码' ,:class=>"add-on"
+        = f.text_field :password2 ,:type=>"password",:placeholder=>"请再次输入"
+      .label-warning
+        =flash.now[:notice1]
+      %div(style="text-align:center;")
+      %br
+        = f.submit "确认修改", class: "btn btn-primary"
