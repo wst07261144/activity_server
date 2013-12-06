@@ -1,8 +1,10 @@
 class UserController < ApplicationController
   # include UserHelper
   def login
+
   end
   def logout
+
   end
   def register
   end
@@ -12,14 +14,13 @@ class UserController < ApplicationController
     @name=User.find(params[:id]).name
   end
   def admin_modify_key
-    p'-----------------------'
-    p params
     @name=User.find(params[:id]).name
     if params[:user][:password1]==params[:user][:password2]
       @user=User.find(params[:id])
       @user.password=params[:user][:password1]
       if @user.save
-        redirect_to "manage_index"
+        #render :text=> "密码修改成功"
+        redirect_to '/user/manage_index'
       end
     else
       flash.now[:notice1]="两次密码输入不一致，请重新输入"
