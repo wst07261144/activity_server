@@ -3,7 +3,7 @@
   .nav-header
     %h4 用户登录
     .right
-      =link_to  "用户注册",:action => "register"
+      =link_to  "用户注册",'#'
   %br
   %br
   %div(class="index-login" style="text-align:center;")
@@ -22,7 +22,7 @@
       =flash.now[:notice]
   .nav-header
     .right
-      =link_to  "忘记密码",:action => "reset_key1_check_account"
+      =link_to  "忘记密码","#"
   %br
 
 
