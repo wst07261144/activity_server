@@ -37,4 +37,14 @@ class SessionsController < ApplicationController
     @user = User.find(session[:current_user_id])
   end
 
+  def judge_show
+    if session[:current_user_id].nil?
+      flash.now[:notice0]='请先登录'
+      render 'login'
+    else
+      @user = User.find(session[:current_user_id])
+      render 'show'
+    end
+  end
+
 end

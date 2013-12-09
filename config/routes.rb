@@ -3,7 +3,7 @@ ActivityServer::Application.routes.draw do
   root 'sessions#judge_login_or_show'
 
   match '/register' ,to:'user#register',via:'get'
-  match '/sessions/show' ,to:'sessions#show',via:'get'
+  match '/sessions/show' ,to:'sessions#judge_show',via:'get'
   match '/sessions/logout',to:'sessions#logout',via:'get'
   match "/add_account",to:"user#add_account" , via:'get'
   match '/manage_index',to:'user#manage_index',via:'get'
@@ -13,6 +13,7 @@ ActivityServer::Application.routes.draw do
   match '/user/:id/admin_modify_account_key',to:"user#admin_modify_account_key",via:'get',:as=>"admin"
 
   match '/',to:'sessions#create', via:'post'
+  match '/sessions/show',to:'sessions#create',via:'post'
   match '/register' ,to:'user#judge_input_legal',via:'post'
   match '/reset_key1_check_account' ,to:'user#handle_reset_key1',via:'post'
   match '/reset_key2_check_question' ,to:'user#handle_reset_key2',via:'post'
