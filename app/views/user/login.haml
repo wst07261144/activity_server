@@ -8,7 +8,7 @@
   %br
   %div(class="index-login" style="text-align:center;")
     %div(class="input-prepend" )
-      = form_for(:session) do |f|
+      = form_for(:user) do |f|
         = f.label '帐  号',:class=>"add-on"
         = f.text_field :name
         %br
@@ -22,6 +22,8 @@
       =flash.now[:notice]
   .nav-header
     .right
-      =link_to  "忘记密码", reset_key1_check_account_path
-
+      =link_to  "忘记密码","#"
   %br
+
+
+

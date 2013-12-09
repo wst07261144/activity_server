@@ -2,7 +2,7 @@
   .right
     %p1
       %lable 你好,管理员
-    =link_to  "退出",:action => "login"
+    =link_to  "退出",:action => 'logout',:controller => 'sessions'
 %h2 活动通
 %div(style="background:#F5F5F5;padding:8px")
   =link_to '首页',:action => 'manage_index'

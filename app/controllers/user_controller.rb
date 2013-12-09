@@ -1,39 +1,18 @@
 class UserController < ApplicationController
-
-
   def register
   end
   def add_account
   end
-
-  def logout
-    session[:login] = false
-    redirect_to "/user/login"
+  def reset_key1_check_account
   end
-
-  def login_success
-    @user = session[:user]
-    session[:login] = true
+  def reset_key2_check_question
+    @question = session[:question]
   end
-
-  def handle_login
-    username = params[:user][:name]
-    password = params[:user][:password]
-    @user = User.find_by_name_and_password username, password
-    if !@user.nil?
-      if @user.name!="admin"
-        redirect_to '/user/login_success' #redirect_to  user_login_success_path
-        session[:user] = @user
-      else
-        redirect_to '/user/manage_index'
-      end
-    else
-      flash.now[:notice]= '用户名或者密码不正确'
-      render 'login'
-    end
+  def reset_key3_to_reset_key
   end
-
-
+  def manage_index
+    @user = User.paginate(page: params[:page], per_page: 10).where(:admin => 'false')
+  end
   def admin_modify_account_key
     @name=User.find(params[:id]).name
   end
@@ -44,40 +23,23 @@ class UserController < ApplicationController
       @user.password=params[:user][:password1]
       if @user.save
         #render :text=> "密码修改成功"
-        redirect_to '/user/manage_index'
+        redirect_to '/manage_index'
       end
     else
       flash.now[:notice1]="两次密码输入不一致，请重新输入"
       render "admin_modify_account_key"
     end
   end
-
-
   def delete_account
     User.find(params[:id]).destroy
     redirect_to manage_index_path
   end
-
-  def manage_index
-    @user = User.paginate(page: params[:page], per_page: 9).where(:admin => 'false')
-  end
-
-  def reset_key1_check_account
-  end
-
-  def reset_key2_check_question
-    @question = session[:question]
-  end
-
-  def reset_key3_to_reset_key
-  end
-
   def handle_reset_key3
     if params[:user][:password1]==params[:user][:password2]
        @user=User.find_by_name session[:account]
        @user.password= params[:user][:password1]
        if @user.save
-         redirect_to '/user/login'
+         redirect_to root_path
        end
     else
       flash.now[:notice6]='两次密码输入不一致，请重新输入'
@@ -88,29 +50,24 @@ class UserController < ApplicationController
   def handle_reset_key2
     @question = session[:question]
     if session[:answer]==params[:user][:answer]
-      redirect_to '/user/reset_key3_to_reset_key'
+      redirect_to '/reset_key3_to_reset_key'
     else
       flash.now[:notice5]='忘记密码答案错误'
       render "reset_key2_check_question"
     end
   end
-
-
   def handle_reset_key1
     @user=User.find_by_name params[:user][:name]
     if @user
       session[:answer]=@user.forget_key_answer
       session[:account]= @user.name
       session[:question] = @user.forget_key_question
-      redirect_to '/user/reset_key2_check_question'
+      redirect_to '/reset_key2_check_question'
     else
       flash.now[:notice4]='该账户名不存在'
       render "reset_key1_check_account"
     end
   end
-
-
-
   def judge_input_legal
     session[:add_or_register]="register"
     if user_params
@@ -134,7 +91,6 @@ class UserController < ApplicationController
       return judge_key_same1
     end
   end
-
   def judge_key_same1
     if params[:user][:password1] != params[:user][:password2]
       flash.now[:notice2]= "两次密码输入不一致，请重新输入"
@@ -143,7 +99,6 @@ class UserController < ApplicationController
       return judge_name_has_signed1
     end
   end
-
   def judge_name_has_signed1
     signed_name = User.find_by_name params[:user][:name]
     if !signed_name.nil?
@@ -153,7 +108,6 @@ class UserController < ApplicationController
       return admin_create
     end
   end
-
   def judge_input_complete
     p params
     if params[:user][:name].empty?||params[:user][:question].empty?||
@@ -165,7 +119,6 @@ class UserController < ApplicationController
       return judge_key_same
     end
   end
-
   def judge_key_same
     if params[:user][:password1] != params[:user][:password2]
       flash.now[:notice2]= "两次密码输入不一致，请重新输入"
@@ -174,7 +127,6 @@ class UserController < ApplicationController
       return judge_name_has_signed
     end
   end
-
   def judge_name_has_signed
     signed_name = User.find_by_name params[:user][:name]
     if !signed_name.nil?
@@ -184,7 +136,6 @@ class UserController < ApplicationController
       return create
     end
   end
-
   def admin_create
     session[:add_or_register] = nil
     user_params_={"name" => params[:user][:name], "password" => params[:user][:password1],
@@ -194,29 +145,24 @@ class UserController < ApplicationController
     @user = User.new(user_params_)
     if @user.save
       session[:user]= User.find_by_name params[:user][:name]
-      redirect_to '/user/manage_index'
+      redirect_to '/manage_index'
     else
       redirect_to 'http://baidu.com'
     end
   end
-
   def create
-    session[:add_or_register] = nil
     user_params_={"name" => params[:user][:name], "password" => params[:user][:password1],
                   "forget_key_question" => params[:user][:question],
                   "forget_key_answer" => params[:user][:answer],
                   "admin"=>'false'}
     @user = User.new(user_params_)
     if @user.save
-      session[:user]= User.find_by_name params[:user][:name]
-      redirect_to '/user/login_success'
+      session[:current_user_id]= @user.id
+      redirect_to '/sessions/show'
     else
       redirect_to 'http://baidu.com'
     end
   end
-
-
-
   private
   def user_params
     params.require(:user).permit(:name, :password1, :password2, :question, :answer)

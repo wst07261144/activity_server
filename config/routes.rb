@@ -1,34 +1,24 @@
 ActivityServer::Application.routes.draw do
 
-  resource :users
-  resource :sessions
-  root to:'sessions#login'
+  root 'sessions#login'
 
-  match '/register',to:"user#register"  ,via:get
+  match '/register' ,to:'user#register',via:'get'
+  match '/sessions/show' ,to:'sessions#show',via:'get'
+  match '/sessions/logout',to:'sessions#logout',via:'get'
+  match "/add_account",to:"user#add_account" , via:'get'
+  match '/manage_index',to:'user#manage_index',via:'get'
+  match '/reset_key1_check_account' ,to:'user#reset_key1_check_account',via:'get'
+  match '/reset_key2_check_question',to:'user#reset_key2_check_question',via:"get"
+  match '/reset_key3_to_reset_key',to:'user#reset_key3_to_reset_key',via:"get"
+  match '/user/:id/admin_modify_account_key',to:"user#admin_modify_account_key",via:'get',:as=>"admin"
 
-
-  get "user/logout"
-  get "user/login_success"
-  get "user/reset_key1_check_account"
-  get "user/reset_key2_check_question"
-  get "user/reset_key3_to_reset_key"
-  get "user/manage_index",:as => "manage_index"
-  get "user/add_account"
-  get "user/:id/admin_modify_account_key"=>"user#admin_modify_account_key" ,:as=>"admin"
-
-  post "/" => 'user#handle_login'
-  post "user/register"=>'user#judge_input_legal'
-  post "user/reset_key1_check_account"=>'user#handle_reset_key1'
-  post "user/reset_key2_check_question"=>'user#handle_reset_key2'
-  post "user/reset_key3_to_reset_key"=>'user#handle_reset_key3'
-  post "user/add_account"=>"user#judge_input_legal1"
-  post "user/:id/admin_modify_account_key"=>"user#admin_modify_key"
-
-  delete 'user/delete_account/:id'=> 'user#delete_account', :as =>'user'
-
-
-
-
-
+  match '/',to:'sessions#create', via:'post'
+  match '/register' ,to:'user#judge_input_legal',via:'post'
+  match '/reset_key1_check_account' ,to:'user#handle_reset_key1',via:'post'
+  match '/reset_key2_check_question' ,to:'user#handle_reset_key2',via:'post'
+  match "/reset_key3_to_reset_key",to:'user#handle_reset_key3' ,   via:'post'
+  match "/add_account",to:"user#judge_input_legal1" ,           via:'post'
+  match "/user/:id/admin_modify_account_key",to:"user#admin_modify_key",via:'post'
+  match '/user/delete_account/:id',to: 'user#delete_account', via:'delete',:as =>'user'
 
 end
