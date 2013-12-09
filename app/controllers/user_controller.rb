@@ -3,6 +3,14 @@ class UserController < ApplicationController
   end
   def add_account
   end
+  def judge_add_account
+    if session[:current_user_id].nil?
+      flash[:notice0]='请先登录'
+      redirect_to root_path
+    else
+      render 'add_account'
+    end
+  end
   def reset_key1_check_account
   end
   def reset_key2_check_question
@@ -16,6 +24,16 @@ class UserController < ApplicationController
   end
   def admin_modify_account_key
     @name=User.find(params[:id]).name
+  end
+
+  def judge_modify_account_key
+    if session[:current_user_id].nil?
+      flash[:notice0]='请先登录'
+      redirect_to root_path
+    else
+      @name=User.find(params[:id]).name
+      render 'admin_modify_account_key'
+    end
   end
 
   def admin_modify_key
@@ -36,6 +54,7 @@ class UserController < ApplicationController
         render "admin_modify_account_key"
       end
     end
+
   end
   def handle_reset_key3
     if params[:user][:password1]==params[:user][:password2]
@@ -78,10 +97,15 @@ class UserController < ApplicationController
     end
   end
   def judge_input_legal1
-    session[:add_or_register]="add"
-    if user_params
-      return judge_input_complete1
+    if session[:current_user_id].nil?
+      flash[:notice0]='请先登录'
+      redirect_to root_path
+    else
+      if user_params
+        return judge_input_complete1
+      end
     end
+
   end
   def judge_input_complete1
     p params
@@ -167,8 +191,13 @@ class UserController < ApplicationController
     end
   end
   def delete_account
-    User.find(params[:id]).destroy
-    redirect_to manage_index_path
+    if session[:current_user_id].nil?
+      flash[:notice0]='请先登录'
+      redirect_to root_path
+    else
+      User.find(params[:id]).destroy
+      redirect_to manage_index_path
+    end
   end
   def manage_index_or_login
      if session[:current_user_id].nil?
@@ -177,8 +206,6 @@ class UserController < ApplicationController
        redirect_to '/manage_index'
      end
   end
-
-
   private
   def user_params
     params.require(:user).permit(:name, :password1, :password2, :question, :answer)
