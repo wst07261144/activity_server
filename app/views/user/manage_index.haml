@@ -1,7 +1,9 @@
-.nav-header
+.nav-header1
   .right
     %p1
-      %span 你好,管理员
+      %span 你好,
+      %span
+        =@user.name
     =link_to  "退出",:action => 'logout',:controller => 'sessions'
 %h2 活动通
 %br
@@ -18,7 +20,7 @@
       %td 操作
   %tbody
     -counter = 1
-    -@user.each do |t|
+    -@users.each do |t|
       %tr
         %td(align="center" style="width:37%" valign="middle")
           = counter
@@ -29,4 +31,4 @@
           =link_to "删除",t, method: :delete, data: { confirm: "您确实要删除"+t.name+" ?" }
           =link_to '修改密码',admin_url(id:t.id)
 .right-padding
-  = will_paginate @user
+  = will_paginate @users

@@ -11,28 +11,31 @@ class UserController < ApplicationController
   def reset_key3_to_reset_key
   end
   def manage_index
-    @user = User.paginate(page: params[:page], per_page: 10).where(:admin => 'false')
+    @user = User.find(session[:current_user_id])
+    @users = User.paginate(page: params[:page], per_page: 10).where(:admin => 'false')
   end
   def admin_modify_account_key
     @name=User.find(params[:id]).name
   end
+
   def admin_modify_key
-    @name=User.find(params[:id]).name
-    if params[:user][:password1]==params[:user][:password2]
-      @user=User.find(params[:id])
-      @user.password=params[:user][:password1]
-      if @user.save
-        #render :text=> "密码修改成功"
-        redirect_to '/manage_index'
-      end
+    if params[:user][:password1].empty?||params[:user][:password2].empty?
+      flash.now[:notice2]="请将密码填写完整"
+      render 'admin_modify_account_key'
     else
-      flash.now[:notice1]="两次密码输入不一致，请重新输入"
-      render "admin_modify_account_key"
+      @name=User.find(params[:id]).name
+      if params[:user][:password1]==params[:user][:password2]
+        @user=User.find(params[:id])
+        @user.password=params[:user][:password1]
+        if @user.save
+          #render :text=> "密码修改成功"
+          redirect_to '/manage_index'
+        end
+      else
+        flash.now[:notice1]="两次密码输入不一致，请重新输入"
+        render "admin_modify_account_key"
+      end
     end
-  end
-  def delete_account
-    User.find(params[:id]).destroy
-    redirect_to manage_index_path
   end
   def handle_reset_key3
     if params[:user][:password1]==params[:user][:password2]
@@ -163,6 +166,19 @@ class UserController < ApplicationController
       redirect_to 'http://baidu.com'
     end
   end
+  def delete_account
+    User.find(params[:id]).destroy
+    redirect_to manage_index_path
+  end
+  def manage_index_or_login
+     if session[:current_user_id].nil?
+       redirect_to '/sessions/login'
+     else
+       redirect_to '/manage_index'
+     end
+  end
+
+
   private
   def user_params
     params.require(:user).permit(:name, :password1, :password2, :question, :answer)

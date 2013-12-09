@@ -1,11 +1,11 @@
-.nav-header
+.nav-header1
   .right
     %p1
-      %lable 你好,管理员
+      %lable 你好,admin
     =link_to  "退出",:action => 'logout',:controller => 'sessions'
 %h2 活动通
 %div(style="background:#F5F5F5;padding:8px")
-  =link_to '首页',:action => 'manage_index'
+  =link_to '首页',:action => 'manage_index_or_login'
   %lable /添加用户
 %div(style="background:#F5F5F5;position: relative;" class="modal1")
   %br

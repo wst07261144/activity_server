@@ -7,7 +7,11 @@ class SessionsController < ApplicationController
       render 'login'
     else
       @user = User.find(session[:current_user_id])
-      render 'show'
+      if @user.name=='admin'
+        redirect_to '/manage_index'
+      else
+        render 'show'
+      end
     end
   end
 
@@ -20,6 +24,7 @@ class SessionsController < ApplicationController
         session[:current_user_id] = @user.id
         redirect_to '/sessions/show'
       else
+        session[:current_user_id] = @user.id
         redirect_to '/manage_index'
       end
     else
@@ -39,8 +44,8 @@ class SessionsController < ApplicationController
 
   def judge_show
     if session[:current_user_id].nil?
-      flash.now[:notice0]='请先登录'
-      render 'login'
+      flash[:notice0]='请先登录'
+      redirect_to 'login'
     else
       @user = User.find(session[:current_user_id])
       render 'show'
