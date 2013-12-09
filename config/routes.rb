@@ -1,6 +1,6 @@
 ActivityServer::Application.routes.draw do
 
-  root 'sessions#login'
+  root 'sessions#judge_login_or_show'
 
   match '/register' ,to:'user#register',via:'get'
   match '/sessions/show' ,to:'sessions#show',via:'get'

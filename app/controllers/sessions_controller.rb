@@ -2,6 +2,15 @@ class SessionsController < ApplicationController
   def login
   end
 
+  def judge_login_or_show
+    if session[:current_user_id].nil?
+      render 'login'
+    else
+      @user = User.find(session[:current_user_id])
+      render 'show'
+    end
+  end
+
   def create
     username = params[:session][:name]
     password = params[:session][:password]
