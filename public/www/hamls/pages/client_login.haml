@@ -1,0 +1,14 @@
+%header
+  %h2 活动通
+#wrapper.wrapper
+  .scrollable
+    %form(class="wrapper-inner"style="margin-top:50px;" )
+      %fieldset(class="form-wrapper" )
+        %input.input-full(  type="text"ng-model="account" placeholder="请输入帐号")
+        %br
+        %br
+        %input.input-full(type="text"ng-model="key"  placeholder="请输入密码")
+        %br
+        %br
+        %a.btn.btn-style.btn-block(type="submit" ng-tap="login()")登录
+        %h3.label-warning(ng-show="tips_to_login")用户名或者密码不正确，请重新输入!

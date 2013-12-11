@@ -1,0 +1,10 @@
+.no-footer
+  %header
+    活动列表
+    .header-right
+      %a.btn.btn-primary(ng-tap="go_to_create_activity_page()" ng-disabled="create_btn_can_tap")创建活动
+  #wrapper.wrapper
+    %ul.list-style-2
+      %li(style="{{$index|id}};line-height:40px" id="{{$index}}" align="center" ng-tap="scan_sign_up_information({{$index}})" ng-repeat="activity in activities") {{activity.activity_name}}
+
+

@@ -1,4 +1,7 @@
 class SessionsController < ApplicationController
+
+  skip_before_filter :verify_authenticity_token,:only =>:process_clients_login
+
   def login
   end
 
@@ -52,4 +55,14 @@ class SessionsController < ApplicationController
     end
   end
 
+  def process_clients_login
+    @user = User.find_by_name_and_password params[:account], params[:key]
+    respond_to do |format|
+      if @user.nil?
+        format.json { render json: '帐号名或密码错误'}
+      else
+        format.json { render json: '登录成功' }
+      end
+    end
+  end
 end

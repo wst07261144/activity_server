@@ -24,4 +24,5 @@ ActivityServer::Application.routes.draw do
   match "/add_account",to:"user#judge_input_legal1" ,           via:'post'
   match "/user/:id/admin_modify_account_key",to:"user#admin_modify_key",via:'post'
   match '/user/delete_account/:id',to: 'user#delete_account', via:'delete',:as =>'user'
+  match '/www/sessions/process_clients_login',to: 'sessions#process_clients_login',via:'post'
 end

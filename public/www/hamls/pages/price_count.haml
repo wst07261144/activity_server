@@ -1,0 +1,14 @@
+%header
+  竞价统计
+  .header-right
+    %a.btn.btn-primary(ng-tap="go_to_bid_result()")列表
+  .header-left
+    %a.btn(ng-tap="back_to_bid_list()")返回
+  .scrollable
+    %ul.list-style-2
+      %li(style="font-family:arial;color:black;line-height:40px" ng-repeat="price_count in price_counts")
+        %span ￥{{price_count.bid}}
+        %span( style="float:right" ) {{price_count.num}}人
+%footer.footer(align="center")
+  %p竞价结果：{{winner.name}} ￥{{winner.bid}} {{winner.phone}}
+
