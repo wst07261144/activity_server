@@ -11,7 +11,7 @@
         %h4活动名称
         %input.input-full(type="text"ng-model="activity_name" ng-change="change()" placeholder="请输入活动名称")
         %br
-        %a.btn.btn-style.btn-block(type="submit" ng-click="create_activity()" ng-disabled="disabled") 创建
+        %a.btn.btn-style.btn-block(type="submit" ng-tap="create_activity()" ng-disabled="disabled") 创建
         %h3.label-warning(ng-show="prompt_of_null")活动名称不能为空!
         %h3.label-warning(ng-show="prompt_of_repeat")活动名称已存在!
 

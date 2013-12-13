@@ -1,28 +1,23 @@
+
 var native_accessor = {
 
-    process_received_message: function (json_message) {
-        var phone_number = json_message.phone
-        check_activity_or_bid_sign_up(json_message)
-    },
-
-    send_sms: function (phone, message, success_callback, failed_callback) {
-
-        native_access.send_sms({"receivers": [
-                {"name": 'name', "phone": phone}
-            ]}, {"message_content": message}, success_callback,
-            failed_callback, this);
+    send_sms: function (phone, message) {
+        native_access.send_sms({"receivers":[{"name":'name', "phone":phone}]}, {"message_content":message});
     },
 
     receive_message: function (json_message) {
-
         if (typeof this.process_received_message === 'function') {
             this.process_received_message(json_message);
         }
+    },
+
+    process_received_message: function (json_message) {
+
+        check_activity_or_bid_sign_up(json_message)
     }
 };
 
-function notify_message_received(message_json){
-
+function notify_message_received(message_json) {
     _.each(message_json.messages, function (message) {
         var SMSObj = {
             "text": message.message.replace(/^\s+|\s+$/g, ''),
@@ -32,24 +27,28 @@ function notify_message_received(message_json){
     })
 }
 
-function check_activity_or_bid_sign_up(SMSObj){
-    var msg_start = SMSObj.text.substring(0, 2).toUpperCase();
-    var msg_end = SMSObj.text.substring(2).replace(/^\s+|\s+$/g, '');
-    if (msg_start == "BM"&&msg_end) {
-        var name= SMSObj.text.substring(2);
-        return SMSSignUp.judge_activity_status_running(name,SMSObj.phone);
+function check_activity_or_bid_sign_up(SMSObj) {
+    var mark = SMSObj.text.substring(0, 2).toUpperCase()
+    var phone = SMSObj.phone
+    if (mark == "BM") {
+        var name = SMSObj.text.substring(2).replace(/^\s+|\s+$/g, '')
+        return process_activity_sign_up(name, phone)
     }
-    if (msg_start == "JJ"&&msg_end) {
-        var bid= SMSObj.text.substring(2);
-        localStorage.setItem("current_bid",bid)
-        return SMSBid.judge_bid_running(SMSObj.phone);
+    if (mark == 'JJ') {
+        var bid = SMSObj.text.substring(2).replace(/^\s+|\s+$/g, '')
+        return process_bidding(bid, phone)
     }
-}
 
-var success_callback = function (result, context) {
-    console.log(result);
-};
-var failed_callback = function (result) {
-    console.log(result);
 }
-
+function process_activity_sign_up(name, phone) {
+    if (localStorage.activity_status_temp == 'running') {
+        return SignUp.judge_repeat_name(name, phone)
+    }
+    SignUp.reply_message(phone,localStorage.activity_status_temp,'activity')
+}
+function process_bidding(bid, phone) {
+    if (localStorage.bid_status_temp == "running") {
+        return Bidding.judge_has_signed(bid, phone)
+    }
+    SignUp.reply_message(phone,localStorage.bid_status_temp,'bid')
+}

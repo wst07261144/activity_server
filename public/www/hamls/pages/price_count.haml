@@ -10,5 +10,5 @@
         %span ￥{{price_count.bid}}
         %span( style="float:right" ) {{price_count.num}}人
 %footer.footer(align="center")
-  %p竞价结果：{{winner.name}} ￥{{winner.bid}} {{winner.phone}}
+  %p竞价结果：{{winner[0].name}} ￥{{winner[0].price}} {{winner[0].phone}}
 

@@ -39,36 +39,27 @@ myModule.filter('status',function(){
 })
 myModule.filter('id',function(){
     return function(id) {
-        var length=JSON.parse(localStorage.getItem("event_name")).length
-        if(id== Activity.find_id_of_running()){
-             return "background : #B87333"
-        }
-        if(id==length-1-Number(localStorage.getItem("current_activity"))){
+        if(id==localStorage.yellow_bid||id==localStorage.yellow_activity){
             return "background : #B87333"
         }
     };
 })
+function change_yellow(){
+    if(localStorage.bid_sign_up_name!=''){
+        return localStorage.yellow_id
+    }
+}
+
 var native_access;
 $(document).ready(function () {
     native_access = new NativeAccess();
-    activity_sign_up_inti();
-    bid_sign_up_inti();
+    localStorage.getItem("activities")==null? localStorage.setItem("activities",'[]'):{}
+    localStorage.getItem("sign_ups")==null? localStorage.setItem("sign_ups",'[]'):{}
+    localStorage.getItem("bids")==null? localStorage.setItem("bids",'[]'):{}
+    localStorage.getItem("activity_id_generator")==null? localStorage.setItem("activity_id_generator",0):{}
+    localStorage.getItem("current_bid")==null? localStorage.setItem("current_bid",0):{}
+    localStorage.getItem("activity_sign_up_id")==null? localStorage.setItem("activity_sign_up_id",''):{}
+    localStorage.getItem("bid_sign_up_name")==null? localStorage.setItem("bid_sign_up_name",''):{}
+    localStorage.getItem("yellow_id")==null? localStorage.setItem("yellow_id",''):{}
 });
-function activity_sign_up_inti(){
-
-     localStorage.getItem("event_name")==null? localStorage.setItem("event_name",'[]'):{}
-     localStorage.getItem("sign_up_id")==null?localStorage.setItem("sign_up_id",0):{}
-     localStorage.getItem("counter of activity_list")==null?localStorage.setItem("counter of activity_list",-1):{}
-     localStorage.getItem("activity_status_temp")==null?localStorage.setItem("activity_status_temp","before_running"):{}
-
-}
-function bid_sign_up_inti(){
-
-    localStorage.getItem("record_bid_sign_up_status")==null?localStorage.setItem("record_bid_sign_up_status","before_running"):{}
-    localStorage.getItem("sign_up_status_temp")==null?localStorage.setItem("sign_up_status_temp","before_running"):{}
-    localStorage.getItem("peron_bid_index")==null?localStorage.setItem("peron_bid_index",'[]'):{}
-    localStorage.getItem("current_activity")==null?localStorage.setItem("current_activity","undefined"):{}
-}
-
-
 

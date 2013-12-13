@@ -15,18 +15,12 @@ function CreateActivityController($scope, $navigate) {
 
     $scope.create_activity = function () {
         if ($scope.can_create){
-            Activity.make_some_create_marks();
-            Activity.save_person_bid_index();
-            new Activity($scope.activity_name).save_activity_list_name();
-            var activity_id=Activity.find_counter_of_activity_list();
-            SignUp.inti(activity_id)
-            Bid.init_bid_list(activity_id)
-            go_to_sign_page();
+            Activity.mark_status()
+            new Activity($scope.activity_name).create();
+            $navigate.go("/sign")
         }
     }
-    function go_to_sign_page() {
-        $navigate.go("/sign");
-    }
+
     $scope.goto_creativity_list_page = function () {
         $navigate.go("/activity_list");
     }

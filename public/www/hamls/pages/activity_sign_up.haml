@@ -1,4 +1,4 @@
-%header(id="jump")
+%header(id="activity_sign_up")
   活动报名（{{number}} 人）
   .header-left
     %a.btn.btn-primary(ng-tap="back_to_activity_list_page()")
@@ -10,7 +10,7 @@
 #wrapper.wrapper
   .scrollable
     %ul.list-style-2
-      %li(style="font-family:arial;color:black;line-height:40px" ng-repeat="sign_up_name in sign_up_names") {{sign_up_name.name}} {{sign_up_name.phone}}
+      %li(style="font-family:arial;color:black;line-height:40px" ng-repeat="sign_up_name in sign_up_names|orderBy:sign_up_order") {{sign_up_name.name}} {{sign_up_name.phone}}
 %footer.footer
   %ul.footer-nav.footer-nav-2tabs
     %li

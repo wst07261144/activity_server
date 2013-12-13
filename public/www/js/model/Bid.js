@@ -1,110 +1,80 @@
-function Bid(){
+function Bid(name) {
+    this.name = name;
+    this.create_time2=new Date().getTime()
+    this.activity_id = localStorage.current_activity_id
+    this.status = 'before_running'
+    this.biddings = [];
 }
-Bid.init_bid_list=function(activity_id){
-    localStorage.setItem("bid_list_array"+activity_id,'[]')
+
+Bid.create_new_bid = function () {
+    var current_bid = _.filter(JSON.parse(localStorage.bids), function (bid) {
+        return bid.activity_id == localStorage.current_activity_id
+    })
+    var name = '竞价' + (Number(current_bid.length) + 1)
+    localStorage.current_bid = name
+    var bids_json = JSON.parse(localStorage.bids)
+    bids_json.push(new Bid(name))
+    localStorage.bids = JSON.stringify(bids_json)
+    localStorage.setItem("bid_status_temp", "before_running");
 }
-Bid.init=function(activity_id,bid_id){
-    localStorage.getItem("activity"+activity_id+"--bid"+bid_id)?{}:localStorage.setItem("person_information"+id,'[]')
+
+Bid.save_current_bid=function(bid_name){
+    localStorage.current_bid=bid_name;
 }
 
 Bid.judge_button_can_click=function(){
     return localStorage.getItem("record_bid_sign_up_status") == "running"
 }
-Bid.judge_bid_ran=function(){
-    return localStorage.getItem("sign_up_status_temp") == "ran"
-}
-Bid.get_showed_info=function(){
-    var activity_id = SignUp.get_activity_id()
-    return JSON.parse(localStorage.getItem("bid_list_array" + activity_id))
-}
-Bid.number=function() {
-    var activity_id, bid_id;
-    activity_id = SignUp.get_activity_id();
-    bid_id = BidList.get_bid_activity_id(activity_id);
-    if (JSON.parse(localStorage.getItem("activity" + activity_id + "--bid" + bid_id))) {
-        return JSON.parse(localStorage.getItem("activity" + activity_id + "--bid" + bid_id)).length;
-    }
-}
-Bid.get_showed_information=function(){
-    var activity_id = SignUp.get_activity_id();
-    var bid_id = BidList.get_bid_activity_id(activity_id);
-    return JSON.parse(localStorage.getItem("activity" + activity_id + "--bid" + bid_id));
+
+Bid.find_current_bid_status=function(){
+    var bids_json=JSON.parse(localStorage.getItem('bids'))
+    var bids_of_current_activity=_.filter(bids_json,function(bid_json){
+        return bid_json.activity_id==localStorage.current_activity_id
+    })
+    var current_bid_json=_.find(bids_of_current_activity,function(bid){
+        return bid.name==localStorage.current_bid
+    })
+    localStorage.bid_status_temp=current_bid_json.status
+    return current_bid_json.status
 }
 
-Bid.save_bid_info_and_process=function(){
-    BidList.save_bid_counter()
-    new BidList("竞价"+BidList.get_bid_list(),"before_running").save_bid_msg();
-    Bid.make_some_create_marks()
-}
-Bid.make_some_create_marks=function(){
-
-    localStorage.setItem("mark_of_start_bid", "create bid");
-    localStorage.setItem("sign_up_status_temp", "before_running");
-}
-Bid.make_some_scan_marks=function(id){
-
-    localStorage.setItem("bid_sign_up_id", id);
-    localStorage.setItem("mark_of_start_bid", "");
-}
-Bid.judge_is_bid_running=function(){
-    return localStorage.getItem("check_bid_is_start") == "running"
-}
-Bid.remove_mark=function(){
-    localStorage.setItem("current_activity","undefined")
-}
-
-Bid.make_marks_for_before_running=function() {
-    localStorage.setItem("current_activity",SignUp.get_activity_id())
-    localStorage.setItem("sign_up_status_temp", "running");
+Bid.change_to_running=function() {
+    localStorage.setItem('yellow_bid',localStorage.activity_sign_up_id)
+    localStorage.setItem("bid_sign_up_name",localStorage.current_bid)
+    localStorage.setItem("bid_status_temp", "running");
     localStorage.setItem("record_bid_sign_up_status", "running");
 }
 
-Bid.page_inti=function(){
-    var status, activity_id, bid_id, _bid_id;
-    _bid_id = localStorage.getItem("bid_sign_up_id");
-    activity_id = SignUp.get_activity_id();
-    if (localStorage.getItem("mark_of_start_bid") == "") {
-        status = JSON.parse(localStorage.getItem("bid_list_array" + activity_id))[_bid_id].bid_status;
-        localStorage.setItem("sign_up_status_temp", status);
-    }
-}
+
 Bid.make_some_mark_to_local=function(){
-    localStorage.setItem("sign_up_status_temp", "ran");
+    localStorage.setItem('yellow_bid','')
+    localStorage.setItem("bid_sign_up_name",'')
+    localStorage.setItem("bid_status_temp", "ran");
     localStorage.setItem("record_bid_sign_up_status", "ran");
 }
-
-Bid.is_success_and_winner=function(save_bid_information){
-    var is_success_and_winner=[],winner_temp;
-    var bid_result_count=[],get_unique_bid_array=[],person_bid_group_infos;
-    person_bid_group_infos = _.groupBy(save_bid_information,function(num){
-        return Number(num.bid);
-    });
-    _.map(person_bid_group_infos, function(value,key){
-        var temp=person_bid_group_infos[key]=value;
-        bid_result_count.push({"bid":key,"num":temp});})
-    _.map(bid_result_count,function(obj){
-        if(obj.num.length==1){
-            get_unique_bid_array.push(obj);
+Bid.save_all_bid_status=function() {
+    var bid_json = JSON.parse(localStorage.bids)
+    var new_bid_json = _.filter(bid_json, function (i_bid) {
+        if(i_bid.activity_id == localStorage.current_activity_id &&
+            i_bid.name == localStorage.current_bid){
+            i_bid.status=localStorage.getItem("bid_status_temp")
         }
+        return i_bid
     })
-    get_unique_bid_array!=""? winner_temp=get_unique_bid_array[0].num[0]:winner_temp={"name":"竞价无效","bid":"","phone":""}
-    localStorage.setItem("winner_info",JSON.stringify(winner_temp))
-    return  winner_temp
+    localStorage.bids=JSON.stringify(new_bid_json)
 }
-Bid.check_bid_success=function(){
-    var winner= Bid.is_success_and_winner(Bid.get_showed_information())
-    return winner.name!="竞价无效"
+Bid.judge_bid_ran=function(){
+    return Bid.find_current_bid_status()=='ran'
+}
+
+
+Bid.render_bids = function () {
+    var bids_json = JSON.parse(localStorage.bids)
+    var new_bids_json = _.filter(bids_json, function (bid) {
+        return bid.activity_id == localStorage.current_activity_id
+    })
+    return new_bids_json
 }
 Bid.get_bid_count=function(){
-    var person_bid_infos = _.groupBy(Bid.get_showed_information(), function (num) {
-        return Number(num.bid);
-    });
-    var bid_result_count = [];
-    _.map(person_bid_infos, function (value, key) {
-        bid_result_count.push({"bid": key, "num": value.length});
-    })
-    return bid_result_count
-}
-Bid.get_winner=function(){
-    return JSON.parse(localStorage.getItem("winner_info"))
+    return JSON.parse(localStorage.getItem('bid_count'))
 }

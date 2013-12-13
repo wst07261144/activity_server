@@ -1,22 +1,23 @@
 function BidSignUpController($scope, $navigate) {
 
-    Bid.page_inti()
-    $scope.selection = localStorage.getItem("sign_up_status_temp");
-
+    (function(){
+        Bid.find_current_bid_status()
+    })
+    $scope.selection = localStorage.getItem("bid_status_temp");
+    $scope.order3 = '-create_time3'
     $scope.data_refresh=function() {
-            $scope.person_bid_names = Bid.get_showed_information()
-            $scope.bid_number =Bid.number()
+            $scope.person_bid_names = Bidding.add_names_for_bidding()
+            $scope.bid_number =Bidding.get_num()
     }
     $scope.sign_up_to_running=function(){
-        Bid.make_marks_for_before_running()
+        Bid.change_to_running()
         $scope.selection = "running";
     }
     $scope.sign_up_to_ran=function(){
 
         if (window.confirm("确实要结束本次竞价吗？")) {
             Bid.make_some_mark_to_local()
-            BidList.save_all_bid_status();
-            Bid.remove_mark()
+            Bid.save_all_bid_status();
             $scope.selection = "ran";
             $navigate.go("/bid_result");
         }
@@ -30,7 +31,7 @@ function BidSignUpController($scope, $navigate) {
 
     $scope.back_to_bid_list_page = function () {
 
-        BidList.save_all_bid_status();
+        Bid.save_all_bid_status();
         $navigate.go("/bid_list")
     }
 

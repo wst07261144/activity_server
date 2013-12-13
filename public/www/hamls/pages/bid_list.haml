@@ -7,7 +7,7 @@
 #wrapper.wrapper
   .scrollable
     %ul.list-style-2
-      %li(style="{{save_bid_list.bid_status|status}};line-height:40px" align="center"id="{{$index}}" ng-tap="scan_bid_sign_up_information({{$index}})" ng-repeat="save_bid_list in save_bid_lists") {{save_bid_list.bid_name}}
+      %li(style="{{bid.status|status}};line-height:40px" align="center" ng-tap="scan_bid_sign_up_information('{{bid.name}}')" ng-repeat="bid in bids|orderBy:order2") {{bid.name}}
 %footer
   %ul.footer-nav.footer-nav-2tabs
     %li

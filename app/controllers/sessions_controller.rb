@@ -61,7 +61,7 @@ class SessionsController < ApplicationController
       if @user.nil?
         format.json { render json: '帐号名或密码错误'}
       else
-        format.json { render json: '登录成功' }
+        format.json { render json: '登录成功'}
       end
     end
   end

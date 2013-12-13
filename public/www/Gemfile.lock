@@ -1,14 +1,12 @@
 GEM
-  remote: http://ruby.taobao.org/
+  remote: https://rubygems.org/
   specs:
     Rwebserver (0.0.3)
-    haml (4.0.3)
-      tilt
-    jt-partial (1.0.1)
-    moode-haml-jqm (0.0.4)
-    moode-haml-toolkit (1.0.4)
+    haml (3.1.7)
+    jt-partial (1.0.3)
+    moode-haml-component-angular (0.0.3)
+    moode-haml-toolkit (1.1.6)
     thor (0.18.1)
-    tilt (1.4.1)
 
 PLATFORMS
   ruby
@@ -16,7 +14,7 @@ PLATFORMS
 DEPENDENCIES
   Rwebserver
   haml
-  jt-partial (= 1.0.1)
-  moode-haml-jqm
-  moode-haml-toolkit (= 1.0.4)
+  jt-partial (= 1.0.3)
+  moode-haml-component-angular (= 0.0.3)
+  moode-haml-toolkit (= 1.1.6)
   thor

@@ -6,9 +6,10 @@
     %a.btn(ng-tap="back_to_bid_list_page()")返回
   .scrollable
     %ul.list-style-2
-      %li(style="font-family:arial;color:black;line-height:40px"  ng-repeat="person_bid_information in person_bid_informations") 序号{{$index+1}}: {{person_bid_information.name}} {{person_bid_information.phone}} ￥{{person_bid_information.bid}}
+      %li(style="font-family:arial;color:black;line-height:40px"  ng-repeat="bid in bid_infos")
+        {{$index+1}}: {{bid.name}}  ￥{{bid.price}}  {{bid.phone}}
 %footer.footer
-  %p(ng-show="check_is_show" align="center")竞价结果:{{winner.name}} ￥{{winner.bid}} {{winner.phone}}
+  %p(ng-show="check_is_show" align="center")竞价结果:{{winner[0].name}} ￥{{winner[0].price}} {{winner[0].phone}}
 
 %div(ng-Switch="show_modal")
   %div(ng-Switch-when="true")
@@ -17,11 +18,10 @@
         %h3竞价结果
         %button(ng-tap="close_this_modal()" style="float:right" )关闭
       .modal-body(style="text-align:center;")
-        %div(ng-Switch="show_success")
-          %div(ng-Switch-when="true")
-            %h4 {{winner.name}}  ￥{{winner.bid}}
-            %h4 {{winner.phone}}
-            %h4竞价成功
-          %div(ng-Switch-when="false")
-            %h4竞价无效
+        %div(ng-show='failure')
+          %h4竞价无效
+        %div(ng_show='success')
+          %h4 {{winner[0].name}}  ￥{{winner[0].price}}
+          %h4 {{winner[0].phone}}
+          %h4竞价成功
     %div(ng-class="black_background" class="modal-backdrop fade in" )

@@ -7,7 +7,9 @@
     %meta(name="apple-mobile-web-app-status-bar-style" content="black")
 
     %title Title
+
     /gen-css
+
     /manual-css
     %link(rel="stylesheet" type="text/css" href="lib/js/angular/mobile-nav.css")
     %link(rel="stylesheet" type="screen" href="css/bootstrap.min.css")
@@ -16,26 +18,22 @@
     %link(rel="stylesheet" type="screen" href="css/bootstrapswitch.css")
     %link(rel="stylesheet" type="screen" href="css/index.css")
 
-  %body(ng-controller="MainCtrl" )
-    %mobile-view
 
-    %script(lang="javascript" src="lib/js/jquery/jquery-1.8.2.min.js")
+  %body(ng-controller="MainCtrl")
+    %mobile-view
 
     %script(lang="javascript" src="lib/js/cordova/cordova-2.1.0.js")
     %script(lang="javascript" src="lib/js/angular/angular.min.js")
     %script(lang="javascript" src="lib/js/angular/mobile-nav.min.js")
 
-    %script(lang="javascript" src="lib/js/bootstrap.min.js" )
-    %script(lang="javascript" src="lib/js/jquery-2.0.0.min.js" )
-
-
     %script(lang="javascript" src="lib/js/zepto/zepto.js")
     %script(lang="javascript" src="lib/js/infrastructure/native.js")
+
     %script(lang="javascript" src="lib/js/underscore/underscore-min.js")
+
     %script(lang="javascript" src="lib/js/jt-logic.js/would.js")
     %script(lang="javascript" src="lib/js/jt-logic.js/relations.js")
     %script(lang="javascript" src="lib/js/jt-logic.js/conditions.js")
     %script(lang="javascript" src="lib/js/jt-notify.js/notify.js")
 
     =include_js
-

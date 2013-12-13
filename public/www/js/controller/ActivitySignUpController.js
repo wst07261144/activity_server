@@ -1,7 +1,9 @@
 function ActivitySignUpController($scope, $navigate) {
 
-    SignUp.activity_sign_up_inti()
-
+    (function(){
+        SignUp.get_status_from_local_list()
+    })
+    $scope.sign_up_order = "-create_time1"
     $scope.selection = SignUp.get_activity_status();
 
     $scope.sign_up = function () {
@@ -21,8 +23,8 @@ function ActivitySignUpController($scope, $navigate) {
     }
 
     $scope.data_refresh = function () {
-            $scope.sign_up_names = SignUp.get_showed_info()
-            $scope.number = SignUp.numbers(SignUp.get_activity_id())
+            $scope.sign_up_names = SignUp.render_sign_ups()
+            $scope.number = SignUp.get_numbers()
     }
 
     $scope.back_to_activity_list_page = function () {
