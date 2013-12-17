@@ -1,6 +1,6 @@
 myModule.config(function ($routeProvider) {
     $routeProvider.when("/", {
-            templateUrl: "pages/client_login",
+            templateUrl: "pages/client_login.html",
             controller: ClientLoginController
         }).when("/activity_list", {
             templateUrl: "pages/activity_list.html",

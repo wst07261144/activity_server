@@ -3,6 +3,8 @@
     活动列表
     .header-right
       %a.btn.btn-primary(ng-tap="go_to_create_activity_page()" ng-disabled="create_btn_can_tap")创建活动
+    .header-left
+      %a.btn.btn-primary(ng-tap='synchronous()') 同 步
   #wrapper.wrapper
     %ul.list-style-2
       %li(style="{{activity.id|id}};line-height:40px"  align="center" ng-tap="scan_sign_up_information('{{activity.name}}')" ng-repeat="activity in activities|orderBy:order") {{activity.name}}

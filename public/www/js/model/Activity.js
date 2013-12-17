@@ -11,6 +11,7 @@ Activity.prototype.create=function(){
     activities_json.push(this)
     localStorage.activities=JSON.stringify(activities_json)
     localStorage.current_activity_id= localStorage.activity_id_generator
+    localStorage.current_activity = this.name
     var id=Number(localStorage.activity_id_generator)+1
     localStorage.activity_id_generator=id
 }
@@ -52,26 +53,84 @@ Activity.activity_is_process=function(){
 
 Activity.scan_sign_up_information_marks=function(activity_name){
     localStorage.current_activity = activity_name
+    localStorage.current_activity_id = Activity.find_activity_id_(activity_name)
 }
-
+Activity.find_activity_id_=function(activity_name){
+    return _.find(JSON.parse(localStorage.activities),function(activity){
+        return activity.name == activity_name
+    }).id
+}
 Activity.check_input_name_repeat=function(new_name){
     var activities = Activity.find_all_activities
     return _.find(activities,function(activity){
         return activity.name==new_name
     })
 }
-
 Activity.save_current_user=function(user){
     localStorage.current_user=user
-    localStorage.current_activity_id =Activity.find_activity_id()
 }
-Activity.find_activity_id=function(){
-    var activities = JSON.parse(localStorage.activities)
-    var current_activity= _.find(activities,function(activity){
+Activity.find_current_activities=function(){
+    return _.filter(JSON.parse(localStorage.activities.replace(/id/g,'activity_id')),function(activity){
         return activity.user==localStorage.current_user
     })
-    if(!current_activity){
-        current_activity=''
-    }
-    return current_activity.id
+}
+Activity.find_sign_ups=function(){
+    return _.filter(JSON.parse(localStorage.sign_ups),function(sign_up){
+        return sign_up.user==localStorage.current_user
+    })
+}
+Activity.find_bids=function(){
+    var bids_array=[]
+    var current_bids=_.filter(JSON.parse(localStorage.bids),function(bid){
+        return bid.user==localStorage.current_user
+    })
+    var new_bids=_.each(current_bids,function(bid){
+        if(bid.biddings){
+            var activity_id=bid.activity_id
+            _.map(bid.biddings,function(bidding){
+                bidding['bid_name']=bid.name
+                bidding['create_time2']=bid.create_time2
+                bidding['activity_id']=bid.activity_id
+                bidding['status']=bid.status
+                bidding['user']= bid.user
+                bidding['name']= Activity.find_name(bidding.phone,activity_id).name
+                bids_array.push(bidding)
+            })
+        }
+    })
+    return bids_array
+}
+Activity.find_bid_list=function(){
+    var bid_list=[],bids_array_=[],bids={}
+    var bid_of_current_user = _.filter(JSON.parse(localStorage.bids),function(bid){
+        return bid.user==localStorage.current_user
+    })
+    var bid_group=_.groupBy(bid_of_current_user, function (bid) {
+        return bid.activity_id;
+    });
+    _.map(bid_group, function (value, key) {
+        bid_list.push({'activity_id':key,'bid_name':value,'user':value[0].user})
+    })
+    var new_bids=_.each(bid_list,function(bid){
+        if(bid.bid_name){
+            _.map(bid.bid_name,function(bidding){
+                bids['activity_id']=bidding.activity_id
+                bids['user']= bidding.user
+                bids['name']= bidding.name
+                bids_array_.unshift(bids)
+                bids={}
+            })
+        }
+    })
+
+    return bids_array_.reverse()
+}
+Activity.find_win=function(){
+    return JSON.parse(localStorage.winners)
+}
+Activity.find_name=function(phone,current_activity_id){
+    return _.find(JSON.parse(localStorage.sign_ups),function(sign_up){
+        return sign_up.activity_id==current_activity_id&&
+            sign_up.phone==phone
+    })
 }

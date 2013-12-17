@@ -1,0 +1,81 @@
+.nav-header1
+  .right
+    %p1
+      %lable 你好,
+      %lable
+      =@user.name
+    =link_to  "退出",:action => 'logout'
+%h2 活动通
+%div(style="background:#F5F5F5;padding:8px")
+  =link_to '首页' ,:action =>'judge_show'
+  %lable /
+  =link_to '竞价列表', bids_path
+  %lable /
+  =@bid
+%br
+%div(style="background:#c0c0c0;text-align:center;padding:8px")
+  =flash.now[:notice0]
+  =flash.now[:notice1]
+  =flash.now[:notice2]
+  =flash.now[:notice3]
+  =flash.now[:notice4]
+  %br
+%div(class="container")
+  .col-md-1
+  .col-md-10.text-center
+    %div(style='width:100%;container')
+      .col-md-1
+      .col-md-10.text-center
+        %ul(class="nav nav-tabs" )
+          %li(style="text-align:center;width:50%" class="active" )
+            %a(href="#bid_lists"data-toggle="tab" ) 出价列表
+          %li(style="text-align:center;width:50%" )
+            %a(href="#bid_counts"data-toggle="tab" ) 价格统计
+      %div(class="tab-content container")
+        %div(class="tab-pane fade in active table table-hover table-bordered" id='bid_lists')
+          .col-md-1
+          .col-md-10.text-center
+            %table(style='width:100%')
+              %thead
+                %tr
+                  %th(style="text-align:center;width:25%") 编号
+                  %th(style="text-align:center;width:25%") 姓名
+                  %th(style="text-align:center;width:25%") 价格/元
+                  %th(style="text-align:center;width:25%") 手机号
+              %tbody
+                -counter = (params[:page].to_i)*10+1
+                -@bid_details.each do |t|
+                  %tr
+                    %td(style="text-align:center;width:25%" valign="middle")
+                      = counter
+                      -counter=counter+1
+                    %td(style="text-align:center;width:25%" valign="middle")
+                      =t.name
+                    %td(style="text-align:center;width:25%" valign="middle")
+                      =t.price
+                    %td(style="text-align:center;width:25%" valign="middle")
+                      =t.phone
+              .right-padding
+                = will_paginate @bid_details,{:previous_label =>'上一页',:next_label => '下一页'}
+        %div(class="tab-pane table table-hover table-bordered" id='bid_counts')
+          .col-md-1
+          .col-md-10.text-center
+            %table(style='width:100%')
+              %thead
+                %tr
+                  %th(style="text-align:center;width:50%") 价格/元
+                  %th(style="text-align:center;width:50%") 人数
+              %tbody
+                -@bid_counts.each do |t|
+                  %tr
+                    %td(style="text-align:center;width:50%" valign="middle")
+                      =t.price
+                    %td(style="text-align:center;width:50%" valign="middle")
+                      =t.user
+          .right-padding
+            = will_paginate @bid_counts,{:previous_label =>'上一页',:next_label => '下一页'}
+
+
+
+
+

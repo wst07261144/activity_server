@@ -6,7 +6,7 @@
     %a.btn(ng-tap="back_to_bid_list_page()")返回
   .scrollable
     %ul.list-style-2
-      %li(style="font-family:arial;color:black;line-height:40px"  ng-repeat="bid in bid_infos")
+      %li(style="font-family:arial;color:black;line-height:40px"  ng-repeat="bid in bid_infos|orderBy:price")
         {{$index+1}}: {{bid.name}}  ￥{{bid.price}}  {{bid.phone}}
 %footer.footer
   %p(ng-show="check_is_show" align="center")竞价结果:{{winner[0].name}} ￥{{winner[0].price}} {{winner[0].phone}}

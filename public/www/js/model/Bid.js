@@ -1,6 +1,7 @@
 function Bid(name) {
     this.name = name;
-    this.create_time2=new Date().getTime()
+    this.create_time2 = new Date().getTime()
+    this.user = localStorage.current_user
     this.activity_id = localStorage.current_activity_id
     this.status = 'before_running'
     this.biddings = [];
@@ -14,6 +15,8 @@ Bid.create_new_bid = function () {
     localStorage.current_bid = name
     var bids_json = JSON.parse(localStorage.bids)
     bids_json.push(new Bid(name))
+    var obj= new Bid(name)
+    console.log(obj)
     localStorage.bids = JSON.stringify(bids_json)
     localStorage.setItem("bid_status_temp", "before_running");
 }

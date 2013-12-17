@@ -61,5 +61,7 @@ $(document).ready(function () {
     localStorage.getItem("activity_sign_up_id")==null? localStorage.setItem("activity_sign_up_id",''):{}
     localStorage.getItem("bid_sign_up_name")==null? localStorage.setItem("bid_sign_up_name",''):{}
     localStorage.getItem("yellow_id")==null? localStorage.setItem("yellow_id",''):{}
+    localStorage.getItem("current_activity_id")==null? localStorage.setItem("current_activity_id",''):{}
+    localStorage.getItem("winners")==null? localStorage.setItem("winners",'[]'):{}
 });
 

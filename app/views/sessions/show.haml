@@ -6,4 +6,31 @@
       =@user.name
     =link_to  "退出",:action => 'logout'
 %h2 活动通
-
+%div(style="background:#F5F5F5;padding:8px")
+  %lable 首页
+%br
+%div(class='yuanjiao'style="margin:auto;width:79%;background:#c0c0c0;padding:1px")
+  %h4
+    活动列表
+%table(class="table table-hover" style="margin:auto; width:79%")
+  %thead
+    %tr
+      %td 编号
+      %td 活动名称
+      %td 报名人数
+      %td 竞价次数
+  %tbody
+    - counter = (params[:page].to_i)*10+1
+    -@activities.each do |t|
+      %tr
+        %td(align="center" style="width:25%" valign="middle")
+          = counter
+          -counter=counter+1
+        %td(align="center" style="width:25%" valign="middle")
+          =link_to t.name , bids_url(activity_id: t.activity_id)
+        %td(align="center" style="width:25%" valign="middle")
+          =link_to (SignUp.where(:activity_id => t.activity_id)).length,sign_up_url(activity_id: t.activity_id)
+        %td(align="center" style="width:25%" valign="middle")
+          =link_to (BidList.where(:activity_id => t.activity_id)).length,bids_url(activity_id: t.activity_id)
+.right-padding
+  = will_paginate @activities ,{:previous_label =>'上一页',:next_label => '下一页'}

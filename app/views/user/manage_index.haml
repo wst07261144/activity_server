@@ -12,14 +12,14 @@
     用户管理
     .btn
       =link_to "添加用户",:action => "judge_add_account"
-%table(class="table table-hover" style="margin:auto; width:79%")
+%table(class="table table-hover table-bordered" style="margin:auto; width:79%")
   %thead
     %tr
       %td 编号
       %td 用户名
       %td 操作
   %tbody
-    -counter = 1
+    -counter = (params[:page].to_i-1)*10+1
     -@users.each do |t|
       %tr
         %td(align="center" style="width:37%" valign="middle")
@@ -31,4 +31,4 @@
           =link_to "删除",t, method: :delete, data: { confirm: "您确实要删除"+t.name+" ?" }
           =link_to '修改密码',admin_url(id:t.id)
 .right-padding
-  = will_paginate @users
+  = will_paginate @users,{:previous_label =>'上一页',:next_label => '下一页'}

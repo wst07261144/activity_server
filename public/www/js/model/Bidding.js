@@ -54,12 +54,27 @@ Bidding.save_bid = function (bid, phone) {
     SignUp.go_to_act_detail_page_by_name_of('bid_sign_up')
 
 }
+function Winner(name,price,phone){
+    this.activity_id=localStorage.current_activity_id
+    this.user = localStorage.current_user
+    this.bid_name = localStorage.current_bid
+    this.name= name
+    this.phone = phone
+    this.price = price
+}
+Winner.prototype.create=function(){
+    var winners = JSON.parse(localStorage.winners)
+    winners.push(this)
+    localStorage.winners=JSON.stringify(winners)
+}
 Bidding.render_biddings = function () {
     var unique_bid_array, name , winner = []
     var new_bidding = Bidding.add_names_for_bidding()
     unique_bid_array = Bidding.get_unique_bid_array(new_bidding)
     unique_bid_array!=""? winner.push(unique_bid_array[0].num[0]):winner.push({"name":"竞价无效","price":'',"phone":""})
     localStorage.success = unique_bid_array!=""
+    var win=new Winner(winner[0].name,winner[0].price,winner[0].phone)
+    win.create();
     localStorage.setItem("winner",JSON.stringify(winner))
     return winner
 }

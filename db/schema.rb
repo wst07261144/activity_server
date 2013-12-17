@@ -11,7 +11,49 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131209015724) do
+ActiveRecord::Schema.define(version: 20131216074509) do
+
+  create_table "activities", force: true do |t|
+    t.string   "activity_id"
+    t.string   "name"
+    t.string   "create_time"
+    t.string   "user"
+    t.string   "status"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "bid_lists", force: true do |t|
+    t.string   "activity_id"
+    t.string   "name"
+    t.string   "user"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "bids", force: true do |t|
+    t.string   "phone"
+    t.string   "price"
+    t.string   "create_time3"
+    t.string   "bid_name"
+    t.string   "create_time2"
+    t.string   "activity_id"
+    t.string   "status"
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "user"
+  end
+
+  create_table "sign_ups", force: true do |t|
+    t.string   "name"
+    t.string   "phone"
+    t.string   "create_time1"
+    t.string   "activity_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "user"
+  end
 
   create_table "users", force: true do |t|
     t.string   "name"
@@ -25,5 +67,16 @@ ActiveRecord::Schema.define(version: 20131209015724) do
   end
 
   add_index "users", ["remember_token"], name: "index_users_on_remember_token"
+
+  create_table "winners", force: true do |t|
+    t.string   "activity_id"
+    t.string   "bid_name"
+    t.string   "user"
+    t.string   "name"
+    t.string   "phone"
+    t.string   "price"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
 end

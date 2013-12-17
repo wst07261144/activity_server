@@ -2,6 +2,7 @@ function SignUp(name, phone) {
     this.name = name;
     this.phone = phone;
     this.create_time1 =  new Date().getTime();
+    this.user = localStorage.current_user
     this.activity_id =localStorage.activity_sign_up_id;
 }
 
@@ -12,8 +13,8 @@ SignUp.prototype.create = function () {
 }
 
 SignUp.get_status_from_local_list=function(){
-    var activities = Activity.find_all_activities()
-    localStorage.activity_status_temp= activities[localStorage.current_activity].status
+    var activities = JSON.parse(localStorage.activities)
+    localStorage.activity_status_temp = activities[localStorage.current_activity_id].status
 }
 
 SignUp.get_activity_status=function(){
