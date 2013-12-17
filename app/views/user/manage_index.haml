@@ -19,14 +19,14 @@
       %td 用户名
       %td 操作
   %tbody
-    -counter = (params[:page].to_i-1)*10+1
-    -@users.each do |t|
+    -counter=@counter
+    -for t in @users
       %tr
         %td(align="center" style="width:37%" valign="middle")
           = counter
-          -counter=counter+1
+          -counter = counter+1
         %td(align="center" style="width:37%" valign="middle")
-          =t.name
+          =link_to t.name , activity_url(name:t.name)
         %td(align="center" style="width:45%" valign="middle")
           =link_to "删除",t, method: :delete, data: { confirm: "您确实要删除"+t.name+" ?" }
           =link_to '修改密码',admin_url(id:t.id)

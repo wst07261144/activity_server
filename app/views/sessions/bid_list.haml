@@ -3,11 +3,13 @@
     %p1
       %lable 你好,
       %lable
+      =@user1
+      =flash.now[:notice]
       =@user.name
     =link_to  "退出",:action => 'logout'
 %h2 活动通
 %div(style="background:#F5F5F5;padding:8px")
-  =link_to '首页' ,:action => 'judge_show'
+  =link_to '首页' ,:action => 'show'
   %lable /竞价列表
 %br
 %div(class='yuanjiao'style="margin:auto;width:79%;background:#c0c0c0;padding:1px")
@@ -22,7 +24,7 @@
       %th 名称
       %th 参与人数
   %tbody
-    - counter = (params[:page].to_i)*10+1
+    -counter = @counter
     -@bid_lists.each do |t|
       %tr
         %td(text-align="center" style="width:37%" valign="middle")
@@ -34,6 +36,5 @@
           =Bid.where(:bid_name=>t.name,:activity_id => t.activity_id).length
           ='/'
           = SignUp.where(:activity_id => t.activity_id).length
-
 .right-padding
   = will_paginate @bid_lists,{:previous_label =>'上一页',:next_label => '下一页'}

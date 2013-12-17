@@ -3,11 +3,13 @@
     %p1
       %lable 你好,
       %lable
+      =@user1
+      =flash.now[:notice]
       =@user.name
     =link_to  "退出",:action => 'logout'
 %h2 活动通
 %div(style="background:#F5F5F5;padding:8px")
-  =link_to '首页' ,:action =>'judge_show'
+  =link_to '首页' ,:action =>'show'
   %lable /
   =link_to '竞价列表', bids_path
   %lable /
@@ -43,7 +45,7 @@
                   %th(style="text-align:center;width:25%") 价格/元
                   %th(style="text-align:center;width:25%") 手机号
               %tbody
-                -counter = (params[:page].to_i)*10+1
+                -counter =@counter
                 -@bid_details.each do |t|
                   %tr
                     %td(style="text-align:center;width:25%" valign="middle")

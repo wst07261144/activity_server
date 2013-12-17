@@ -1,8 +1,10 @@
 ActivityServer::Application.routes.draw do
 
   root 'sessions#judge_login_or_show'
-
+  get 'sessions/admin_scan'
+  get 'manage_index/:name',:as=>'activity' ,:controller=>'user',:action=>'admin_scan'
   match '/register' ,to:'user#register',via:'get'
+
   match '/sessions/login' ,to:'sessions#login',via:'get'
   match '/sessions/show' ,to:'sessions#show',via:'get'
   match '/sessions/logout',to:'sessions#logout',via:'get'
@@ -16,6 +18,7 @@ ActivityServer::Application.routes.draw do
   match '/sessions/show/:activity_id/bid_list',to:'sessions#bid_list',via:'get',:as=>'bids'
   match '/sessions/show/:activity_id/sign_up_list',to:'sessions#sign_up_list',via:'get',:as=>'sign_up'
   match '/sessions/show/:activity_id/bid_detail/',to:'sessions#bid_detail',via:'get',:as=>'bid_detail'
+
 
   match '/',to:'sessions#create', via:'post'
   match '/sessions/process_clients_login' ,to:'sessions#process_clients_login',via:'post'

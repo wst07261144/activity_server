@@ -19,6 +19,12 @@ class UserController < ApplicationController
   def reset_key3_to_reset_key
   end
   def manage_index
+    if params[:page]=='1' ||params[:page]==nil
+      counter =1
+    else
+      counter = (params[:page].to_i-1)*10+1
+    end
+    @counter = counter
     @user = User.find(session[:current_user_id])
     @users = User.paginate(page: params[:page], per_page: 10).where(:admin => 'false')
   end
@@ -206,6 +212,18 @@ class UserController < ApplicationController
        redirect_to '/manage_index'
      end
   end
+
+  def admin_scan
+    params[:name]
+    @user = User.find_by_name params[:name]
+    @user[:remember_token] = 'true'
+    @user.save()
+    session[:current_user_id] = @user[:id]
+    session[:current_user_of_admin] = 'admin'
+    redirect_to '/sessions/show'
+
+  end
+
   private
   def user_params
     params.require(:user).permit(:name, :password1, :password2, :question, :answer)

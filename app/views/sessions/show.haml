@@ -3,6 +3,8 @@
     %p1
       %lable 你好,
       %lable
+      =@user1
+      =flash.now[:notice]
       =@user.name
     =link_to  "退出",:action => 'logout'
 %h2 活动通
@@ -12,7 +14,7 @@
 %div(class='yuanjiao'style="margin:auto;width:79%;background:#c0c0c0;padding:1px")
   %h4
     活动列表
-%table(class="table table-hover" style="margin:auto; width:79%")
+%table(class="table table-hover table-bordered" style="margin:auto; width:79%")
   %thead
     %tr
       %td 编号
@@ -20,7 +22,7 @@
       %td 报名人数
       %td 竞价次数
   %tbody
-    - counter = (params[:page].to_i)*10+1
+    - counter = @counter
     -@activities.each do |t|
       %tr
         %td(align="center" style="width:25%" valign="middle")

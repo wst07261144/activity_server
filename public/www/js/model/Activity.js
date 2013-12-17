@@ -126,7 +126,9 @@ Activity.find_bid_list=function(){
     return bids_array_.reverse()
 }
 Activity.find_win=function(){
-    return JSON.parse(localStorage.winners)
+    return _.filter(JSON.parse(localStorage.winners),function(win){
+        return win.user==localStorage.current_user
+    })
 }
 Activity.find_name=function(phone,current_activity_id){
     return _.find(JSON.parse(localStorage.sign_ups),function(sign_up){

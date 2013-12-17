@@ -13,7 +13,7 @@
       %li(style="font-family:arial;color:black;line-height:40px" ng-repeat="sign_up_name in sign_up_names|orderBy:sign_up_order") {{sign_up_name.name}} {{sign_up_name.phone}}
 %footer.footer
   %ul.footer-nav.footer-nav-2tabs
-    %li
+    %li(class="active" )
       %a报名
     %li
       %a(ng-tap="goto_bid_list_page()")竞价
