@@ -216,8 +216,6 @@ class UserController < ApplicationController
   def admin_scan
     params[:name]
     @user = User.find_by_name params[:name]
-    @user[:remember_token] = 'true'
-    @user.save()
     session[:current_user_id] = @user[:id]
     session[:current_user_of_admin] = 'admin'
     redirect_to '/sessions/show'

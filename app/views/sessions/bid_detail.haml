@@ -34,7 +34,7 @@
           %li(style="text-align:center;width:50%" )
             %a(href="#bid_counts"data-toggle="tab" ) 价格统计
       %div(class="tab-content container")
-        %div(class="tab-pane fade in active table table-hover table-bordered" id='bid_lists')
+        %div(class="tab-pane fade in active table-hover table-bordered" id='bid_lists')
           .col-md-1
           .col-md-10.text-center
             %table(style='width:100%')
@@ -59,7 +59,7 @@
                       =t.phone
               .right-padding
                 = will_paginate @bid_details,{:previous_label =>'上一页',:next_label => '下一页'}
-        %div(class="tab-pane table table-hover table-bordered" id='bid_counts')
+        %div(class="tab-pane  table-hover table-bordered" id='bid_counts')
           .col-md-1
           .col-md-10.text-center
             %table(style='width:100%')
@@ -73,7 +73,7 @@
                     %td(style="text-align:center;width:50%" valign="middle")
                       =t.price
                     %td(style="text-align:center;width:50%" valign="middle")
-                      =t.user
+                      =t.status
           .right-padding
             = will_paginate @bid_counts,{:previous_label =>'上一页',:next_label => '下一页'}
 

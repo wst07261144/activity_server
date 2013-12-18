@@ -70,28 +70,49 @@ Activity.save_current_user=function(user){
     localStorage.current_user=user
 }
 Activity.find_current_activities=function(){
-    return _.filter(JSON.parse(localStorage.activities.replace(/id/g,'activity_id')),function(activity){
+//    return _.filter(JSON.parse(localStorage.activities.replace(/id/g,'activity_id')),function(activity){
+//        return activity.user==localStorage.current_user
+//    })
+    var activity_={} ,_activity=[]
+    var activities= _.filter(JSON.parse(localStorage.activities.replace(/id/g,'activity_id')),function(activity){
         return activity.user==localStorage.current_user
     })
+    _.map(activities,function(activity){
+       activity_['activity_id']=activity.activity_id
+       activity_['name']=activity.name
+       activity_['user']=activity.user
+       _activity.push(activity_)
+       activity_={}
+    })
+    return _activity
 }
 Activity.find_sign_ups=function(){
-    return _.filter(JSON.parse(localStorage.sign_ups),function(sign_up){
+    var sign_up_={},_sign_ups=[]
+    var sign_ups= _.filter(JSON.parse(localStorage.sign_ups),function(sign_up){
         return sign_up.user==localStorage.current_user
     })
+    _.map(sign_ups,function(sign_up){
+        sign_up_['name']=sign_up.name
+        sign_up_['phone']=sign_up.phone
+        sign_up_['activity_id']=sign_up.activity_id
+        sign_up_['user']=sign_up.user
+        _sign_ups.push(sign_up_)
+        sign_up_={}
+    })
+    return _sign_ups
 }
 Activity.find_bids=function(){
     var bids_array=[]
     var current_bids=_.filter(JSON.parse(localStorage.bids),function(bid){
         return bid.user==localStorage.current_user
     })
+
     var new_bids=_.each(current_bids,function(bid){
         if(bid.biddings){
             var activity_id=bid.activity_id
             _.map(bid.biddings,function(bidding){
                 bidding['bid_name']=bid.name
-                bidding['create_time2']=bid.create_time2
                 bidding['activity_id']=bid.activity_id
-                bidding['status']=bid.status
                 bidding['user']= bid.user
                 bidding['name']= Activity.find_name(bidding.phone,activity_id).name
                 bids_array.push(bidding)

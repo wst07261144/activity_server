@@ -38,8 +38,6 @@ class SessionsController < ApplicationController
 
   def logout
     user = User.find(session[:current_user_id])
-    user[:remember_token]=nil
-    user.save()
     session[:current_user_id] = nil
     session[:current_user_of_admin] = nil
     redirect_to root_path
@@ -55,8 +53,6 @@ class SessionsController < ApplicationController
         @user1 ='admin'
         flash.now[:notice]='、'
       end
-      @user[:remember_token] = 'true'
-      @user.save()
       if params[:page]==nil||params[:page]==1
         counter = 1
       else
@@ -184,24 +180,24 @@ class SessionsController < ApplicationController
       @counter = counter
       @bid = params[:name]
       @user = User.find(session[:current_user_id])
-      @win = Winner.find_by_activity_id_and_name params[:activity_id],params[:name]
+      @win = Winner.find_by_activity_id_and_bid_name params[:activity_id],params[:name]
       if @win.nil?
         flash.now[:notice0]='活动正在进行中...'
       else
-        if @win.phone.nil?
+        if@win[:name]=='竞价无效'
           flash.now[:notice1]='本次竞价无效'
         else
-          flash.now[:notice2]='获胜者：#{@win.name}'
-          flash.now[:notice3]='出 价：#{@win.price}元'
-          flash.now[:notice4]='手机号：#{@win.phone}'
+          flash.now[:notice2]='获胜者:'+@win.name
+          flash.now[:notice3]='出价:'+@win.price+'元'
+          flash.now[:notice4]='手机号:'+@win.phone
         end
       end
       @bid_details = Bid.paginate(page: params[:page], per_page: 10).where(:user=>@user.name,:activity_id=>params[:activity_id],:bid_name=>params[:name]).order(:price, created_at: :desc)
       bid_count = @bid_details.group(:price)
       bid_count.each do|t|
-        t[:user] = bid_count.where(:price=>t.price).length
+        t[:status] = bid_count.where(:price=>t.price).length
       end
-      @bid_counts=bid_count.order(:price, created_at: :desc)
+      @bid_counts=bid_count
     end
   end
 
