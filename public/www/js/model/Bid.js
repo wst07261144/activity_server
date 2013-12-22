@@ -12,11 +12,11 @@ Bid.create_new_bid = function () {
         return bid.activity_id == localStorage.current_activity_id
     })
     var name = '竞价' + (Number(current_bid.length) + 1)
+
     localStorage.current_bid = name
     var bids_json = JSON.parse(localStorage.bids)
     bids_json.push(new Bid(name))
     var obj= new Bid(name)
-    console.log(obj)
     localStorage.bids = JSON.stringify(bids_json)
     localStorage.setItem("bid_status_temp", "before_running");
 }
@@ -46,6 +46,8 @@ Bid.change_to_running=function() {
     localStorage.setItem("bid_sign_up_name",localStorage.current_bid)
     localStorage.setItem("bid_status_temp", "running");
     localStorage.setItem("record_bid_sign_up_status", "running");
+    Bid.save_all_bid_status()
+
 }
 
 
@@ -58,7 +60,7 @@ Bid.make_some_mark_to_local=function(){
 Bid.save_all_bid_status=function() {
     var bid_json = JSON.parse(localStorage.bids)
     var new_bid_json = _.filter(bid_json, function (i_bid) {
-        if(i_bid.activity_id == localStorage.current_activity_id &&
+        if(i_bid.activity_id == localStorage.activity_sign_up_id &&
             i_bid.name == localStorage.current_bid){
             i_bid.status=localStorage.getItem("bid_status_temp")
         }
@@ -70,14 +72,10 @@ Bid.judge_bid_ran=function(){
     return Bid.find_current_bid_status()=='ran'
 }
 
-
 Bid.render_bids = function () {
     var bids_json = JSON.parse(localStorage.bids)
     var new_bids_json = _.filter(bids_json, function (bid) {
         return bid.activity_id == localStorage.current_activity_id
     })
     return new_bids_json
-}
-Bid.get_bid_count=function(){
-    return JSON.parse(localStorage.getItem('bid_count'))
 }

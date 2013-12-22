@@ -1,6 +1,5 @@
 function BidListController($scope, $navigate) {
 
-
     $scope.check_is_start = Bid.judge_button_can_click()
     $scope.bids = Bid.render_bids()
     $scope.order2 = '-create_time2'

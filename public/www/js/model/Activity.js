@@ -38,13 +38,12 @@ Activity.find_bid_running_on_sign_up=function(){
     var bid_running = _.find(JSON.parse(localStorage.getItem('bids')),function(bid){
         return bid.activity_id==localStorage.current_activity_id&&
             bid.name==localStorage.current_bid
+
     })
     if(bid_running){
         return localStorage.bid_status_temp=="running" ||bid_running.status=='running'
     }
-    if(!bid_running){
-        return false
-    }
+    return false
 }
 Activity.activity_is_process=function(){
     return Activity.find_activities_running_on_sign_up()||
@@ -70,9 +69,6 @@ Activity.save_current_user=function(user){
     localStorage.current_user=user
 }
 Activity.find_current_activities=function(){
-//    return _.filter(JSON.parse(localStorage.activities.replace(/id/g,'activity_id')),function(activity){
-//        return activity.user==localStorage.current_user
-//    })
     var activity_={} ,_activity=[]
     var activities= _.filter(JSON.parse(localStorage.activities.replace(/id/g,'activity_id')),function(activity){
         return activity.user==localStorage.current_user
@@ -106,7 +102,6 @@ Activity.find_bids=function(){
     var current_bids=_.filter(JSON.parse(localStorage.bids),function(bid){
         return bid.user==localStorage.current_user
     })
-
     var new_bids=_.each(current_bids,function(bid){
         if(bid.biddings){
             var activity_id=bid.activity_id
@@ -114,6 +109,7 @@ Activity.find_bids=function(){
                 bidding['bid_name']=bid.name
                 bidding['activity_id']=bid.activity_id
                 bidding['user']= bid.user
+                bidding['status']= 'running'
                 bidding['name']= Activity.find_name(bidding.phone,activity_id).name
                 bids_array.push(bidding)
             })
@@ -143,7 +139,6 @@ Activity.find_bid_list=function(){
             })
         }
     })
-
     return bids_array_.reverse()
 }
 Activity.find_win=function(){

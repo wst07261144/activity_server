@@ -1,7 +1,8 @@
 function ActivitySignUpController($scope, $navigate) {
 
-
-    SignUp.get_status_from_local_list()
+    (function(){
+        SignUp.get_status_from_local_list()
+    })()
 
     $scope.sign_up_order = "-create_time1"
     $scope.selection = SignUp.get_activity_status();

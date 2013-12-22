@@ -7,6 +7,8 @@ ActivityServer::Application.routes.draw do
 
   match '/sessions/login' ,to:'sessions#login',via:'get'
   match '/sessions/show' ,to:'sessions#show',via:'get'
+  match '/sessions/activity_show' ,to:'sessions#activity_show',via:'get'
+
   match '/sessions/logout',to:'sessions#logout',via:'get'
   match "/add_account",to:"user#judge_add_account" , via:'get'
   match '/manage_index',to:'user#manage_index',via:'get'
@@ -23,8 +25,11 @@ ActivityServer::Application.routes.draw do
   match '/',to:'sessions#create', via:'post'
   match '/sessions/process_clients_login' ,to:'sessions#process_clients_login',via:'post'
   match '/sessions/process_synchronous',to:'sessions#process_synchronous',via:'post'
+  match "/sessions/activity_show",to:'sessions#activity_show',via:'post'
+  match "/sessions/activity_save",to:'sessions#activity_save',via:'post'
   match "/www/sessions/process_client_login",to: 'sessions#process_clients_login',via:'post'
   match '/www/sessions/process_synchronous',to:'sessions#process_synchronous',via:'post'
+  match "/www/sessions/activity_show",to:'sessions#activity_show',via:'post'
   match '/sessions/login',to:'sessions#create',via:'post'
   match '/sessions/show',to:'sessions#create',via:'post'
   match '/register' ,to:'user#judge_input_legal',via:'post'

@@ -12,7 +12,6 @@ function BidResultController($scope,$navigate,$timeout){
     $scope.success=Bidding.check_bid_success()
     $scope.failure= !$scope.success
 
-
     $scope.close_this_modal=function(){
         $scope.show_modal=false
         $scope.check_is_show=true;

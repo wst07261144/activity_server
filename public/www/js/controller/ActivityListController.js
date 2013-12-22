@@ -26,15 +26,9 @@ function ActivityListController($scope, $navigate,$http) {
         var turtle_url = "sessions/process_synchronous"
         $http({ method: 'post',  url: turtle_url ,data:turtle_data})
             .success(function(respond) {
-                if(respond=='同步成功'){
-                   alert(respond)
-                }
-                if(respond=='同步失败，请重新同步'){
-                    alert(respond)
-                }
-            })
-            .error(function(respond) {
-            })
+                if(respond=='同步成功'){alert(respond)}
+                if(respond=='同步失败，请重新同步'){alert(respond)} })
+            .error(function(respond) {console.log('请求发送失败')})
 
     }
 }

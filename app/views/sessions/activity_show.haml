@@ -1,0 +1,30 @@
+%meta(http-equiv="refresh" content="3" URL="/sessions/activity_show")
+%div(class="container" style="width:80%")
+  %div(style="background:#f5f5f5;text-align:center" )
+    %br
+    %h1
+      =@name
+    %h3
+      =flash.now[:notice1]
+      =flash.now[:notice2]
+      =flash.now[:notice3]
+      =flash.now[:notice4]
+      =flash.now[:notice5]
+      =flash.now[:notice6]
+    %br
+    %br
+  %br
+  %table(class="table-hover table-bordered")
+    %thead
+      %tr
+        %th(style="text-align:center")
+          =@xingming
+        %th(style="text-align:center")
+          =@phone
+    %tbody
+      -@bidding_details.each do |t|
+        %tr
+          %td(style="width:50%;text-align:center" valign="middle")
+            = t.name
+          %td(style="width:50%;text-align:center" valign="middle")
+            =t.phone

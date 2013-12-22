@@ -1,23 +1,43 @@
-function BidSignUpController($scope, $navigate) {
+function BidSignUpController($scope, $navigate,$http) {
 
     (function(){
         Bid.find_current_bid_status()
-    })
+    })()
+
     $scope.selection = localStorage.getItem("bid_status_temp");
     $scope.order3 = '-create_time3'
+
+
     $scope.data_refresh=function() {
-            $scope.person_bid_names = Bidding.add_names_for_bidding()
-            $scope.bid_number =Bidding.get_num()
+        $scope.person_bid_names = Bidding.add_names_for_bidding()
+        var turtle_data =[_.last(Activity.find_bids()), _.last( Activity.find_bid_list())
+            , _.last( Activity.find_win())]
+        var turtle_url = "/sessions/activity_save"
+        console.log(JSON.stringify(turtle_data))
+        $http({ method: 'post',  url: turtle_url ,data:turtle_data})
+            .success(function(status){ console.log('1');localStorage.new_bid==''})
+            .error(function(status) {console.log('2')})
+        $scope.bid_number =Bidding.get_num()
     }
+
     $scope.sign_up_to_running=function(){
         Bid.change_to_running()
         $scope.selection = "running";
     }
+
     $scope.sign_up_to_ran=function(){
 
         if (window.confirm("确实要结束本次竞价吗？")) {
             Bid.make_some_mark_to_local()
             Bid.save_all_bid_status();
+            Bidding.render_biddings();
+            var turtle_data =[_.last(Activity.find_bids()), _.last( Activity.find_bid_list())
+                , _.last( Activity.find_win())]
+            console.log(JSON.stringify(turtle_data))
+            var turtle_url = "/sessions/activity_save"
+            $http({ method: 'post',  url: turtle_url ,data:turtle_data})
+                .success(function(status){ console.log('1')})
+                .error(function(status) {console.log('2')})
             $scope.selection = "ran";
             $navigate.go("/bid_result");
         }
@@ -37,3 +57,4 @@ function BidSignUpController($scope, $navigate) {
 
     $scope.data_refresh()
 }
+//  var turtle_url = "http://192.168.1.132:3000/sessions/process_clients_login"

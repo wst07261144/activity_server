@@ -212,7 +212,6 @@ class UserController < ApplicationController
        redirect_to '/manage_index'
      end
   end
-
   def admin_scan
     params[:name]
     @user = User.find_by_name params[:name]

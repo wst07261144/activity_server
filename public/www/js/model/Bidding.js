@@ -13,7 +13,6 @@ Bidding.judge_has_signed = function (bid, phone) {
     _.each(new_sign_ups, function (sign_up) {
         if (Number(sign_up.phone) == Number(phone)) {
             signed = true
-
         }
     })
     if(signed){
@@ -29,7 +28,7 @@ Bidding.judge_repeat_bid = function (bid, phone) {
         return i_bid.activity_id == localStorage.getItem('activity_sign_up_id') &&
             i_bid.name == localStorage.getItem('bid_sign_up_name')
     })
-    _.each(new_bid_json.biddings, function (sign_up) {
+    _.each(new_bid_json[0].biddings, function (sign_up) {
         if (Number(sign_up.phone) == Number(phone)) {
             repeat = true
         }
@@ -52,6 +51,19 @@ Bidding.save_bid = function (bid, phone) {
     localStorage.bids = JSON.stringify(new_bid_json)
     SignUp.reply_message(phone,'running1','bid')
     SignUp.go_to_act_detail_page_by_name_of('bid_sign_up')
+}
+
+Bidding.add_names_for_bidding = function () {
+    var bid_json = JSON.parse(localStorage.bids)
+    var new_bid_json = _.find(bid_json, function (i_bid) {
+        return  i_bid.activity_id == localStorage.current_activity_id &&
+            i_bid.name == localStorage.current_bid
+    })
+    return _.map(new_bid_json.biddings, function (bid) {
+        var name_ = Bidding.find_name(bid.phone)
+        bid['name'] = name_
+        return bid
+    })
 
 }
 function Winner(name,price,phone){
@@ -73,10 +85,28 @@ Bidding.render_biddings = function () {
     unique_bid_array = Bidding.get_unique_bid_array(new_bidding)
     unique_bid_array!=""? winner.push(unique_bid_array[0].num[0]):winner.push({"name":"竞价无效","price":'',"phone":""})
     localStorage.success = unique_bid_array!=""
-    var win=new Winner(winner[0].name,winner[0].price,winner[0].phone)
-    win.create();
-    localStorage.setItem("winner",JSON.stringify(winner))
+    Bidding.save_winners(winner[0].name,winner[0].price,winner[0].phone)
     return winner
+}
+Bidding.save_winners=function(name,price,phone){
+    var win=new Winner(name,price,phone)
+    if(localStorage.winners=='[]'){
+        win.create();
+        localStorage.setItem("winner",JSON.stringify(winner))
+    }
+    if(localStorage.winners!='[]'){
+        var new_winner =  _.last(JSON.parse(localStorage.winners))
+        if(new_winner.activity_id!=win.activity_id||new_winner.bid_name!=win.bid_name){
+            win.create();
+            localStorage.setItem("winner",JSON.stringify(winner))
+        }
+    }
+}
+Bidding.winners=function(){
+    return _.filter(JSON.parse(localStorage.winners),function(win){
+        return win.activity_id == localStorage.activity_sign_up_id&&
+            win.bid_name == localStorage.bid_sign_up_name
+    })
 }
 Bidding.check_bid_success=function(){
     if(localStorage.success=='true'){
@@ -87,22 +117,11 @@ Bidding.check_bid_success=function(){
 Bidding.get_winner=function(){
     return JSON.parse(localStorage.winner)
 }
-Bidding.add_names_for_bidding = function () {
-    var bid_json = JSON.parse(localStorage.bids)
-    var new_bid_json = _.find(bid_json, function (i_bid) {
-        return  i_bid.activity_id == localStorage.current_activity_id &&
-            i_bid.name == localStorage.current_bid
-    })
-    return _.map(new_bid_json.biddings, function (bid) {
-        var name_ = Bidding.find_name(bid.phone)
-        bid['name'] = name_
-        return bid
-    })
 
-}
 Bidding.get_num=function(){
     return Bidding.add_names_for_bidding().length
 }
+
 Bidding.find_name = function (phone) {
     var sign_ups_json = JSON.parse(localStorage.sign_ups)
     var new_sign_ups = _.filter(sign_ups_json, function (sign_up) {
