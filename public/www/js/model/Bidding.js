@@ -85,10 +85,10 @@ Bidding.render_biddings = function () {
     unique_bid_array = Bidding.get_unique_bid_array(new_bidding)
     unique_bid_array!=""? winner.push(unique_bid_array[0].num[0]):winner.push({"name":"竞价无效","price":'',"phone":""})
     localStorage.success = unique_bid_array!=""
-    Bidding.save_winners(winner[0].name,winner[0].price,winner[0].phone)
+    Bidding.save_winners(winner[0].name,winner[0].price,winner[0].phone,winner)
     return winner
 }
-Bidding.save_winners=function(name,price,phone){
+Bidding.save_winners=function(name,price,phone,winner){
     var win=new Winner(name,price,phone)
     if(localStorage.winners=='[]'){
         win.create();

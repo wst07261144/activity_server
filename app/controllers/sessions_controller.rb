@@ -202,7 +202,6 @@ class SessionsController < ApplicationController
   end
 
   def activity_show
-    p params
     @name_ = Activity.find_by_activity_id  session[:activity_id1]
     @name = @name_[:name]
     @win = Winner.find_by_activity_id_and_bid_name session[:activity_id1],session[:bid_name]
@@ -214,7 +213,7 @@ class SessionsController < ApplicationController
       flash.now[:notice5]='参与人数:'
       flash.now[:notice6]='('+ @bidding_detail.length.to_s + '/' + @num.length.to_s + ')'
     else
-      @class = nil
+      #@class = nil
       @bidding_detail = Bidding.all
       if @win[:name]=='竞价无效'
         flash.now[:notice1]='本次竞价无效'
