@@ -13,6 +13,7 @@ ActivityServer::Application.routes.draw do
   match "/add_account",to:"user#judge_add_account" , via:'get'
   match '/manage_index',to:'user#manage_index',via:'get'
   match '/manage_index_or_login',to:'user#manage_index_or_login',via:'get'
+  match "/sessions/activity_show",to:'sessions#activity_show',via:'get'
   match '/reset_key1_check_account' ,to:'user#reset_key1_check_account',via:'get'
   match '/reset_key2_check_question',to:'user#reset_key2_check_question',via:"get"
   match '/reset_key3_to_reset_key',to:'user#reset_key3_to_reset_key',via:"get"
@@ -25,7 +26,6 @@ ActivityServer::Application.routes.draw do
   match '/',to:'sessions#create', via:'post'
   match '/sessions/process_clients_login' ,to:'sessions#process_clients_login',via:'post'
   match '/sessions/process_synchronous',to:'sessions#process_synchronous',via:'post'
-  match "/sessions/activity_show",to:'sessions#activity_show',via:'post'
   match "/sessions/activity_save",to:'sessions#activity_save',via:'post'
   match "/www/sessions/process_client_login",to: 'sessions#process_clients_login',via:'post'
   match '/www/sessions/process_synchronous',to:'sessions#process_synchronous',via:'post'

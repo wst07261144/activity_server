@@ -7,13 +7,13 @@ class SessionsController < ApplicationController
 
   def judge_login_or_show
     if session[:current_user_id].nil?
-      render 'login'
+      redirect_to '/sessions/login'
     else
       @user = User.find(session[:current_user_id])
       if @user.name=='admin'
         redirect_to '/manage_index'
       else
-        render 'show'
+        redirect_to '/sessions/show'
       end
     end
   end
@@ -60,6 +60,13 @@ class SessionsController < ApplicationController
       end
       @counter = counter
       @activities = Activity.paginate(page: params[:page], per_page: 10).where(:user=>@user.name)
+      @bid_status = Bid.all.where(:user=>@user[:name])
+      if @bid_status.empty?
+        @status ='ran'
+      else
+        @status = @bid_status.last[:status]
+      end
+      @status_ = @status
     end
   end
 
@@ -202,32 +209,34 @@ class SessionsController < ApplicationController
   end
 
   def activity_show
-    @name_ = Activity.find_by_activity_id  session[:activity_id1]
-    @name = @name_[:name]
-    @win = Winner.find_by_activity_id_and_bid_name session[:activity_id1],session[:bid_name]
-    @bidding_detail = Bid.paginate(page: params[:page], per_page: 10).where(:activity_id=>session[:activity_id1],:bid_name=>session[:bid_name]).order(:created_at, created_at: :desc)
-    @num = SignUp.all.where(:activity_id=>session[:activity_id1])
-    if @win==nil
-      @xingming='姓名'
-      @phone='电话'
-      flash.now[:notice5]='参与人数:'
-      flash.now[:notice6]='('+ @bidding_detail.length.to_s + '/' + @num.length.to_s + ')'
-    else
-      #@class = nil
-      @bidding_detail = Bidding.all
-      if @win[:name]=='竞价无效'
-        flash.now[:notice1]='本次竞价无效'
+      @user = User.find(session[:current_user_id])
+      p @user
+      @name = Activity.where(:user=>@user[:name]).last[:name]
+      @bidlist = BidList.where(:user=>@user[:name]).last
+      @win = Winner.where(:user=>@user[:name]).last
+      @bidding_detail = Bid.paginate(page: params[:page], per_page: 10).where(:activity_id=>@bidlist[:activity_id],:bid_name=>@bidlist[:name])
+      @num = SignUp.all.where(:activity_id=>@bidlist[:activity_id])
+      if @win[:activity_id]== @bidlist[:activity_id]&&@win[:bid_name]== @bidlist[:name]
+        @bidding_detail = Bidding.all
+        if @win[:name]=='竞价无效'
+          flash.now[:notice1]='本次竞价无效'
+        else
+          flash.now[:notice2]='获胜者:'+@win[:name]
+          flash.now[:notice3]='出价:'+@win[:price]+'元'
+          flash.now[:notice4]='手机号:'+@win[:phone]
+        end
       else
-        flash.now[:notice2]='获胜者:'+@win[:name]
-        flash.now[:notice3]='出价:'+@win[:price]+'元'
-        flash.now[:notice4]='手机号:'+@win[:phone]
+        @xingming='姓名'
+        @phone='电话'
+        flash.now[:notice5]='参与人数:'
+        flash.now[:notice6]='('+ @bidding_detail.length.to_s + '/' + @num.length.to_s + ')'
       end
-    end
-    @bidding_details = @bidding_detail
+    @bidding_details=@bidding_detail
   end
+
   def activity_save
     if params.length!=2
-      session[:activity_id1]= params[:_json][0][:activity_id]
+      session[:activity_id1] = params[:_json][0][:activity_id]
       session[:bid_name]= params[:_json][0][:bid_name]
       if params[:_json][0][:phone]!=nil
         if params[:_json][0][:phone] !=Bid.last[:phone]||params[:_json][0][:bid_name] !=Bid.last[:bid_name]

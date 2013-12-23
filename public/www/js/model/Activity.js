@@ -109,7 +109,7 @@ Activity.find_bids=function(){
                 bidding['bid_name']=bid.name
                 bidding['activity_id']=bid.activity_id
                 bidding['user']= bid.user
-                bidding['status']= 'running'
+                bidding['status']= bid.status
                 bidding['name']= Activity.find_name(bidding.phone,activity_id).name
                 bids_array.push(bidding)
             })

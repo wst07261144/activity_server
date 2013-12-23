@@ -13,7 +13,7 @@
   %h4
     活动信息
     .right
-      =link_to_if(Bid.last[:status]=='running','活动展示','activity_show')
+      =link_to_if(@status_=='running','活动展示','/sessions/activity_show')
 %table(class="table table-hover table-bordered" style="margin:auto; width:79%")
   %thead
     %tr
