@@ -6,14 +6,14 @@
       =@user1
       =flash.now[:notice]
       =@user.name
-    =link_to  "退出",:action => 'logout'
+    =link_to  "退出",:action => 'logout',:controller => 'sessions'
 %h2 活动通
 %br
 %div(class='yuanjiao container'style="margin:auto;width:79%;background:#c0c0c0")
   %h4
     活动信息
     .right
-      =link_to_if(@status_=='running','活动展示','/sessions/activity_show')
+      =link_to_if(@status_=='running','活动展示','/shows/activity_show')
 %table(class="table table-hover table-bordered" style="margin:auto; width:79%")
   %thead
     %tr

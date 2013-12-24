@@ -7,7 +7,7 @@
     =link_to  "退出",:action => 'logout',:controller => 'sessions'
 %h2 活动通
 %div(style="background:#F5F5F5;padding:8px")
-  =link_to '首页',:action => 'manage_index_or_login'
+  =link_to '首页',:action => 'manage_index'
   %lable /修改用户密码
 %div(style="background:#F5F5F5;position: relative;" class="modal1")
   %br
@@ -29,4 +29,4 @@
         =flash.now[:notice2]
       %div(style="text-align:center;")
       %br
-        = f.submit "确认修改", class: "btn btn-primary",data:{confirm:"密码修改成功"}
+        = f.submit "确认修改", class: "btn btn-primary"

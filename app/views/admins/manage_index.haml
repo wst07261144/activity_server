@@ -11,7 +11,7 @@
   %h4
     用户管理
     .btn
-      =link_to "添加用户",:action => "judge_add_account"
+      =link_to "添加用户",:action => "add_account"
 %table(class="table table-hover table-bordered" style="margin:auto; width:79%")
   %thead
     %tr
@@ -29,6 +29,6 @@
           =link_to t.name , activity_url(name:t.name)
         %td(align="center" style="width:45%" valign="middle")
           =link_to "删除",t, method: :delete, data: { confirm: "您确实要删除"+t.name+" ?" }
-          =link_to '修改密码',admin_url(id:t.id)
+          =link_to '修改密码',admin_url(id:t.id),:controller=>'admins'
 .right-padding
   = will_paginate @users,{:previous_label =>'上一页',:next_label => '下一页'}
