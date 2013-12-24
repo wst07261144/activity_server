@@ -1,4 +1,4 @@
-function CreateActivityController($scope, $navigate) {
+function CreateActivityController($scope, $navigate,$http) {
 
     (function(){
         $scope.disabled = true;
@@ -16,7 +16,12 @@ function CreateActivityController($scope, $navigate) {
     $scope.create_activity = function () {
         if ($scope.can_create){
             Activity.mark_status()
-            new Activity($scope.activity_name).create();
+            var activity = new Activity($scope.activity_name)
+            activity.create()
+            var turtle_url = "/sessions/activity_save_activity"
+            $http({ method: 'post',  url: turtle_url ,data:activity})
+                .success(function(status){ console.log('1')})
+                .error(function(status) {console.log('2')})
             $navigate.go("/sign")
         }
     }

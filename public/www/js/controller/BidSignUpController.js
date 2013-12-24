@@ -33,8 +33,6 @@ function BidSignUpController($scope, $navigate,$http) {
             Bidding.render_biddings();
             var turtle_data =[_.last(Activity.find_bids()), _.last( Activity.find_bid_list())
                 , _.last( Activity.find_win())]
-            console.log(JSON.stringify(turtle_data))
-            //http://127.0.0.1:3000/sessions/activity_show
             var turtle_url = "/sessions/activity_save"
             $http({ method: 'post',  url: turtle_url ,data:turtle_data})
                 .success(function(status){ console.log('1')})

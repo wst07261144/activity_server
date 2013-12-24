@@ -21,7 +21,7 @@ Activity.mark_status=function(){
 }
 
 Activity.find_all_activities=function(){
-    return _.filter(JSON.parse(localStorage.activities),function(activity){
+    return _.filter(JSON.parse(localStorage.getItem('activities')),function(activity){
         return activity.user == localStorage.current_user
     })
 }
@@ -109,7 +109,7 @@ Activity.find_bids=function(){
                 bidding['bid_name']=bid.name
                 bidding['activity_id']=bid.activity_id
                 bidding['user']= bid.user
-                bidding['status']= bid.status
+                bidding['status']= 'running'
                 bidding['name']= Activity.find_name(bidding.phone,activity_id).name
                 bids_array.push(bidding)
             })
@@ -152,3 +152,8 @@ Activity.find_name=function(phone,current_activity_id){
             sign_up.phone==phone
     })
 }
+//Activity.sign_up=function(){
+//    return _.filter(JSON.parse(localStorage.sign_ups),function(sign_up){
+//       return sign_up.activity_id == localStorage.current_activity_id
+//    })
+//}

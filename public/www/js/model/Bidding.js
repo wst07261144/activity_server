@@ -21,18 +21,22 @@ Bidding.judge_has_signed = function (bid, phone) {
     SignUp.reply_message(phone,'running3','bid')
 
 }
-Bidding.judge_repeat_bid = function (bid, phone) {
+Bidding.judge_repeat_bid = function (bid, phone) { console.log('bidding1')
     var repeat
     var bids_json = JSON.parse(localStorage.bids)
     var new_bid_json = _.filter(bids_json, function (i_bid) {
         return i_bid.activity_id == localStorage.getItem('activity_sign_up_id') &&
             i_bid.name == localStorage.getItem('bid_sign_up_name')
     })
-    _.each(new_bid_json[0].biddings, function (sign_up) {
-        if (Number(sign_up.phone) == Number(phone)) {
-            repeat = true
-        }
-    })
+    console.log(JSON.stringify(new_bid_json))
+    if(JSON.stringify(new_bid_json)!='[]'){
+        _.each(new_bid_json[0].biddings, function (sign_up) {
+            if (Number(sign_up.phone) == Number(phone)) {
+                repeat = true
+            }
+        })
+    }
+
     if (!repeat) {
         return Bidding.save_bid(bid, phone)
     }

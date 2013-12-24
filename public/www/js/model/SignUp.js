@@ -13,7 +13,7 @@ SignUp.prototype.create = function () {
 }
 
 SignUp.get_status_from_local_list=function(){
-    var activities = JSON.parse(localStorage.activities)
+    var activities = JSON.parse(localStorage.getItem('activities'))
     localStorage.activity_status_temp = activities[localStorage.current_activity_id].status
 }
 
@@ -35,7 +35,7 @@ SignUp.make_bid_sign_up_mark=function(){
 }
 
 SignUp.save_all_activity_status = function() {
-    var activities = JSON.parse(localStorage.activities)
+    var activities = JSON.parse(localStorage.getItem('activities'))
     activities[localStorage.activity_sign_up_id].status = localStorage.activity_status_temp
     localStorage.activities=JSON.stringify(activities)
 }
