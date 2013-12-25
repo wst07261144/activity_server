@@ -11,5 +11,11 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def check_login
+    if session[:current_user_id].nil?
+      flash[:notice0]='请先登录'
+      redirect_to root_path
+    end
+  end
 
 end

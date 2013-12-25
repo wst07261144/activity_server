@@ -29,9 +29,9 @@ class AdminsController < ApplicationController
   end
 
   def admin_scan
-    params[:name]
     @user = User.find_by_name params[:name]
     session[:current_user_id] = @user[:id]
+    session[:admin?] = 'true'
     redirect_to '/shows/show'
   end
 
@@ -62,5 +62,7 @@ class AdminsController < ApplicationController
       end
     end
   end
+
+
 
 end

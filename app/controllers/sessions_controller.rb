@@ -35,6 +35,7 @@ class SessionsController < ApplicationController
 
   def logout
     session[:current_user_id] = nil
+    session[:admin?] = nil
     redirect_to root_path
   end
 
