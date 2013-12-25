@@ -1,31 +1,23 @@
 class AdminsController < ApplicationController
 
+  before_action :check_login, :only[:add_account,:manage_index,:delete_account,:admin_modify_account_key]
+
   def add_account
-    if session[:current_user_id].nil?
-      flash[:notice0]='请先登录'
-      redirect_to root_path
-    end
   end
 
   def manage_index
-    if session[:current_user_id].nil?
-      flash[:notice0]='请先登录'
-      redirect_to root_path   t
-    else
-      @counter = set_page
-      @user = User.find(session[:current_user_id])
-      @users = User.paginate(page: params[:page], per_page: 10).where(:admin => 'false')
-    end
+    @counter = set_page
+    @user = User.find(session[:current_user_id])
+    @users = User.paginate(page: params[:page], per_page: 10).where(:admin => 'false')
+  end
+
+  def admin_modify_account_key
+    @name=User.find(params[:id]).name
   end
 
   def delete_account
-    if session[:current_user_id].nil?
-      flash[:notice0]='请先登录'
-      redirect_to root_path
-    else
-      User.find(params[:id]).destroy
-      redirect_to manage_index_path
-    end
+    User.find(params[:id]).destroy
+    redirect_to manage_index_path
   end
 
   def admin_scan
@@ -33,14 +25,6 @@ class AdminsController < ApplicationController
     session[:current_user_id] = @user[:id]
     session[:admin?] = 'true'
     redirect_to '/shows/show'
-  end
-
-  def admin_modify_account_key
-    @name=User.find(params[:id]).name
-    if session[:current_user_id].nil?
-      flash[:notice0]='请先登录'
-      redirect_to root_path
-    end
   end
 
   def admin_modify_key
@@ -62,7 +46,4 @@ class AdminsController < ApplicationController
       end
     end
   end
-
-
-
 end
