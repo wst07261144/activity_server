@@ -36,16 +36,11 @@ class ShowsController < ApplicationController
     if session[:current_user_id].nil?
       render 'login'
     else
-      if params[:page]=='1' ||params[:page]==nil
-        counter =1
-      else
-        counter = (params[:page].to_i-1)*10+1
-      end
       if session[:current_user_of_admin] == 'admin'
         @user1 ='admin'
         flash.now[:notice]='、'
       end
-      @counter = counter
+      @counter = set_page
       @bid = params[:name]
       @user = User.find(session[:current_user_id])
       @win = Winner.find_by_activity_id_and_bid_name params[:activity_id],params[:name]
@@ -73,16 +68,11 @@ class ShowsController < ApplicationController
     if session[:current_user_id].nil?
       render 'login'
     else
-      if params[:page]=='1' ||params[:page]==nil
-        counter =1
-      else
-        counter = (params[:page].to_i-1)*10+1
-      end
       if session[:current_user_of_admin] == 'admin'
         @user1 ='admin'
         flash.now[:notice]='、'
       end
-      @counter = counter
+      @counter = set_page
       @user = User.find(session[:current_user_id])
       @bid_lists = BidList.paginate(page: params[:page], per_page: 10).where(:user=>@user.name,:activity_id=>params[:activity_id])
 
@@ -99,12 +89,7 @@ class ShowsController < ApplicationController
         @user1 ='admin'
         flash.now[:notice]='、'
       end
-      if params[:page]==nil||params[:page]==1
-        counter = 1
-      else
-        counter = (params[:page].to_i-1)*10+1
-      end
-      @counter = counter
+      @counter = set_page
       @activities = Activity.paginate(page: params[:page], per_page: 10).where(:user=>@user.name)
       @bid_status = Bid.all.where(:user=>@user[:name])
       if @bid_status.empty?
@@ -120,21 +105,15 @@ class ShowsController < ApplicationController
     if session[:current_user_id].nil?
       render 'login'
     else
-      if params[:page]=='1' ||params[:page]==nil
-        counter =1
-      else
-        counter = (params[:page].to_i-1)*10+1
-      end
       if session[:current_user_of_admin] == 'admin'
         @user1 ='admin'
         flash.now[:notice]='、'
       end
-      @counter = counter
+      @counter = set_page
       @user = User.find(session[:current_user_id])
       @sign_ups = SignUp.paginate(page: params[:page], per_page: 10).where(:user=>@user.name,:activity_id=>params[:activity_id])
 
     end
   end
-
 
 end

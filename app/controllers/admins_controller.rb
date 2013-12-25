@@ -12,12 +12,7 @@ class AdminsController < ApplicationController
       flash[:notice0]='请先登录'
       redirect_to root_path   t
     else
-      if params[:page]=='1' ||params[:page]==nil
-        counter =1
-      else
-        counter = (params[:page].to_i-1)*10+1
-      end
-      @counter = counter
+      @counter = set_page
       @user = User.find(session[:current_user_id])
       @users = User.paginate(page: params[:page], per_page: 10).where(:admin => 'false')
     end

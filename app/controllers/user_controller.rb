@@ -10,7 +10,6 @@ class UserController < ApplicationController
   def reset_key3_to_reset_key
   end
 
-
   def handle_reset_key3
     if params[:user][:password1]==params[:user][:password2]
        @user=User.find_by_name session[:account]
@@ -145,7 +144,6 @@ class UserController < ApplicationController
       redirect_to 'http://baidu.com'
     end
   end
-
 
   private
   def user_params
