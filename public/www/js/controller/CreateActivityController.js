@@ -18,7 +18,7 @@ function CreateActivityController($scope, $navigate,$http) {
             Activity.mark_status()
             var activity = new Activity($scope.activity_name)
             activity.create()
-            var turtle_url = "/sessions/activity_save_activity"
+            var turtle_url = "/sessions/save_activity"
             $http({ method: 'post',  url: turtle_url ,data:activity})
                 .success(function(status){ console.log('1')})
                 .error(function(status) {console.log('2')})

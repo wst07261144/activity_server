@@ -12,7 +12,7 @@ function BidSignUpController($scope, $navigate,$http) {
         $scope.person_bid_names = Bidding.add_names_for_bidding()
         var turtle_data =[_.last(Activity.find_bids()), _.last( Activity.find_bid_list())
             , _.last( Activity.find_win())]
-        var turtle_url = "/sessions/activity_save"
+        var turtle_url = "/sessions/save_bid"
         console.log(JSON.stringify(turtle_data))
         $http({ method: 'post',  url: turtle_url ,data:turtle_data})
             .success(function(status){ console.log('1');localStorage.new_bid==''})
@@ -33,7 +33,7 @@ function BidSignUpController($scope, $navigate,$http) {
             Bidding.render_biddings();
             var turtle_data =[_.last(Activity.find_bids()), _.last( Activity.find_bid_list())
                 , _.last( Activity.find_win())]
-            var turtle_url = "/sessions/activity_save"
+            var turtle_url = "/sessions/save_bid"
             $http({ method: 'post',  url: turtle_url ,data:turtle_data})
                 .success(function(status){ console.log('1')})
                 .error(function(status) {console.log('2')})

@@ -52,7 +52,7 @@ class SessionsController < ApplicationController
     end
   end
 
-  def activity_save_activity
+  def save_activity
     if params[:id]!=Activity.last[:activity_id]
       Activity.create(:activity_id=>params[:id],:name=>params[:name],:user=>params[:user])
     end
@@ -71,7 +71,7 @@ class SessionsController < ApplicationController
     redirect_to '/shows/show'
   end
 
-  def activity_save
+  def save_bid
     if params.length!=2
       if params[:_json][0][:phone]!=nil
         if params[:_json][0][:phone] !=Bid.last[:phone]||params[:_json][0][:bid_name] !=Bid.last[:bid_name]
