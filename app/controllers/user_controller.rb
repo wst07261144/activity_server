@@ -144,7 +144,6 @@ class UserController < ApplicationController
       redirect_to 'http://baidu.com'
     end
   end
-
   private
   def user_params
     params.require(:user).permit(:name, :password1, :password2, :question, :answer)

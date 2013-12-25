@@ -1,32 +1,19 @@
 class SessionsController < ApplicationController
 
+  include SessionsHelper
   skip_before_filter :verify_authenticity_token,:process_clients_login,:process_synchronous
 
   def login
-    if session[:current_user_id].nil?
-      render
-    else
+    if session[:current_user_id]!=nil
       @user = User.find(session[:current_user_id])
-      if @user.name=='admin'
-        redirect_to '/manage_index'
-      else
-        redirect_to '/shows/show'
-      end
+      sign_up(@user)
     end
   end
 
   def create
-    username = params[:session][:name]
-    password = params[:session][:password]
-    @user = User.find_by_name_and_password username, password
+    @user = User.find_by_name_and_password params[:session][:name], params[:session][:password]
     if !@user.nil?
-      if @user.name!="admin"
-        session[:current_user_id] = @user.id
-        redirect_to '/shows/show'
-      else
-        session[:current_user_id] = @user.id
-        redirect_to '/manage_index'
-      end
+      sign_in(@user)
     else
       flash.now[:notice]= '用户名或者密码不正确'
       render '/sessions/login'
@@ -51,48 +38,13 @@ class SessionsController < ApplicationController
   end
 
   def process_synchronous
-    current_user = params[:_json][0][0][:user]
-    if  !Activity.all.where(:user=>current_user).nil?
-      Activity.delete_all(:user=> current_user)
-    end
-    if !SignUp.all.where(:user=>current_user).nil?
-      SignUp.delete_all(:user=>current_user)
-    end
-    if !Bid.all.where(:user=>current_user).nil?
-      Bid.delete_all( :user=>current_user)
-    end
-    if !BidList.all.where(:user=>current_user).nil?
-      BidList.delete_all(:user=> current_user)
-    end
-    if !Winner.all.where(:user=>current_user).nil?
-      Winner.delete_all(:user=> current_user)
-    end
-    params[:_json][0].each do |t|
-      Activity.create(t)
-    end
-    params[:_json][1].each do |t|
-      SignUp.create(t)
-    end
-    params[:_json][2].each do |t|
-      Bid.create(t)
-    end
-    params[:_json][3].each do |t|
-      BidList.create(t)
-    end
-    params[:_json][4].each do |t|
-      Winner.create(t)
-    end
-    activity = Activity.all.where(:user=>current_user)
-    sign_up = SignUp.all.where(:user=>current_user)
-    bid  = Bid.all.where(:user=>current_user)
-    bid_list  = BidList.all.where(:user=>current_user)
-    winner  = Winner.all.where(:user=>current_user)
+    Activity.synchronous_activities(params)
+    SignUp.synchronous_sign_ups(params)
+    Bid.synchronous_bids(params)
+    BidList.synchronous_bidlists(params)
+    Winner.synchronous_winners(params)
     respond_to do |format|
-      if params[:_json][0].length == activity.length&&
-          params[:_json][1].length == sign_up.length&&
-          params[:_json][2].length == bid.length&&
-          params[:_json][3].length == bid_list.length&&
-          params[:_json][4].length == winner.length
+      if check_synchronous_success(params)=='true'
         format.json { render json: '同步成功'}
       else
         format.json { render json: '同步失败，请重新同步'}
