@@ -7,4 +7,11 @@ class BidList < ActiveRecord::Base
       BidList.create(t)
     end
   end
+
+  def self.update_bidlist(params)
+    if params[:_json][1][:activity_id] !=BidList.last[:activity_id]||
+        params[:_json][1][:name] !=BidList.last[:name]
+       BidList.create(params[:_json][1])
+    end
+  end
 end

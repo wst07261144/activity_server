@@ -7,4 +7,11 @@ class Activity < ActiveRecord::Base
       Activity.create(t)
     end
   end
+
+  def self.update_activity(params)
+    if params[:id]!=Activity.last[:activity_id]
+      Activity.create(:activity_id=>params[:id],:name=>params[:name],:user=>params[:user])
+    end
+  end
+
 end

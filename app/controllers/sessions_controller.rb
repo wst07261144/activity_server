@@ -53,20 +53,16 @@ class SessionsController < ApplicationController
   end
 
   def save_activity
-    if params[:id]!=Activity.last[:activity_id]
-      Activity.create(:activity_id=>params[:id],:name=>params[:name],:user=>params[:user])
-    end
+    Activity.update_activity(params)
     redirect_to '/shows/show'
   end
 
   def save_sign_up
     sign_up= SignUp.where(:activity_id =>params[:activity_id])
     if  sign_up.empty?
-      SignUp.create(:name=>params[:name],:phone=>params[:phone],:activity_id=>params[:activity_id],:user=>params[:user])
+      SignUp.update_sign_up1(params)
     else
-      if sign_up.last[:phone]!=params[:phone]
-        SignUp.create(:name=>params[:name],:phone=>params[:phone],:activity_id=>params[:activity_id],:user=>params[:user])
-      end
+      SignUp.update_sign_up2(params)
     end
     redirect_to '/shows/show'
   end
@@ -74,25 +70,12 @@ class SessionsController < ApplicationController
   def save_bid
     if params.length!=2
       if params[:_json][0][:phone]!=nil
-        if params[:_json][0][:phone] !=Bid.last[:phone]||params[:_json][0][:bid_name] !=Bid.last[:bid_name]
-          Bid.create(params[:_json][0])
-        end
+        Bid.update_bid(params)
       end
-      if params[:_json][1][:activity_id] !=BidList.last[:activity_id]||
-          params[:_json][1][:name] !=BidList.last[:name]
-        BidList.create(params[:_json][1])
-      end
-      if params[:_json][2]!=nil
-        @win = Winner.find_by_activity_id_and_bid_name params[:_json][2][:activity_id],params[:_json][2][:bid_name]
-        if @win==nil
-          Winner.create(params[:_json][2])
-          @bid = Bid.last
-          @bid[:status] = 'ran'
-          @bid.save()
-        end
-      end
+      BidList.update_bidlist(params)
+      Winner.update_winner(params)
     end
-    redirect_to '/shows/activity_show'
+    redirect_to '/shows/show'
   end
 
 end
