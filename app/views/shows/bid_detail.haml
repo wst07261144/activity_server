@@ -14,12 +14,15 @@
   =@bid
 %br
 %div(style="background:#c0c0c0;text-align:center;padding:8px")
-  =flash.now[:notice0]
-  =flash.now[:notice1]
-  =flash.now[:notice2]
-  =flash.now[:notice3]
-  =flash.now[:notice4]
-  %br
+  -if @win.nil?
+    %h3 活动正在进行中...
+  -if @win_failure == 'true'
+    %h3 本次竞价无效
+  -if @win_success == 'true'
+    %h4
+      ='获胜者:'+@win.name
+      ='出价:'+@win.price+'元'
+      ='手机号:'+@win.phone
 %div(class="container")
   .col-md-1
   .col-md-10.text-center

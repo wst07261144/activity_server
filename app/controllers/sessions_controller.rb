@@ -1,7 +1,7 @@
 class SessionsController < ApplicationController
 
   include SessionsHelper
-  skip_before_filter :verify_authenticity_token,:process_clients_login,:process_synchronous
+  skip_before_filter :verify_authenticity_token, :process_clients_login, :process_synchronous
 
   def login
     if session[:current_user_id]!=nil
@@ -30,9 +30,9 @@ class SessionsController < ApplicationController
     @user = User.find_by_name_and_password params[:account], params[:key]
     respond_to do |format|
       if @user.nil?
-        format.json { render json: '帐号名或密码错误'}
+        format.json { render json: '帐号名或密码错误' }
       else
-        format.json { render json: '登录成功'}
+        format.json { render json: '登录成功' }
       end
     end
   end
@@ -45,9 +45,9 @@ class SessionsController < ApplicationController
     Winner.synchronous_winners(params)
     respond_to do |format|
       if check_synchronous_success(params)=='true'
-        format.json { render json: '同步成功'}
+        format.json { render json: '同步成功' }
       else
-        format.json { render json: '同步失败，请重新同步'}
+        format.json { render json: '同步失败，请重新同步' }
       end
     end
   end
@@ -58,7 +58,7 @@ class SessionsController < ApplicationController
   end
 
   def save_sign_up
-    sign_up= SignUp.where(:activity_id =>params[:activity_id])
+    sign_up= SignUp.where(:activity_id => params[:activity_id])
     if  sign_up.empty?
       SignUp.update_sign_up1(params)
     else
