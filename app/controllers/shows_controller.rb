@@ -1,5 +1,6 @@
 class ShowsController < ApplicationController
 
+  include ShowsHelper
   before_action :check_login, only:[:show,:bid_list,:sign_up_list,:bid_detail]
 
   def activity_show
@@ -73,12 +74,7 @@ class ShowsController < ApplicationController
     @counter = set_page
     @activities = Activity.paginate(page: params[:page], per_page: 10).where(:user=>@users.name)
     @bid_status = Bid.all.where(:user=>@users[:name])
-    if @bid_status.empty?
-      @status ='ran'
-    else
-      @status = @bid_status.last[:status]
-    end
-    @status_ = @status
+    @status= get_bid_status(@bid_status)
   end
 
   def sign_up_list
