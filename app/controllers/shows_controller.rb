@@ -32,12 +32,6 @@ class ShowsController < ApplicationController
     @users = User.find(session[:current_user_id])
     @bid = params[:name]
     @win = Winner.find_by_activity_id_and_bid_name params[:activity_id], params[:name]
-    if !@win.nil?&&@win[:name]=='竞价无效'
-      @win_failure = 'true'
-    end
-    if !@win.nil?&&@win[:name]!='竞价无效'
-      @win_success = 'true'
-    end
     @bid_details = Bid.paginate(page: params[:page], per_page: 10).where(:user => @users.name, :activity_id => params[:activity_id], :bid_name => params[:name]).order(price: :asc)
     @bid_counts = get_num_according_price(@bid_details)
   end
@@ -50,31 +44,13 @@ class ShowsController < ApplicationController
     @win = Winner.where(:user => @users[:name]).last
     @bidding_detail = Bid.paginate(page: params[:page], per_page: 10).where(:activity_id => @bidlist[:activity_id], :bid_name => @bidlist[:name]).order(created_at: :desc)
     @num = SignUp.all.where(:activity_id => @bidlist[:activity_id])
-    if @win!=nil
-      if @win[:activity_id]== @bidlist[:activity_id]&&@win[:bid_name]== @bidlist[:name]
-        @bidding_detail = Bidding.all
-        if @win[:name]=='竞价无效'
-          flash.now[:notice1]='本次竞价无效'
-        else
-          flash.now[:notice2]='获胜者:'+@win[:name]
-          flash.now[:notice3]='出价:'+@win[:price]+'元'
-          flash.now[:notice4]='手机号:'+@win[:phone]
-        end
-      else
-        @xingming='姓名'
-        @phone='电话'
-        flash.now[:notice5]='参与人数:'
-        flash.now[:notice6]='('+ @bidding_detail.length.to_s + '/' + @num.length.to_s + ')'
-      end
-    else
-      @xingming='姓名'
-      @phone='电话'
-      flash.now[:notice5]='参与人数:'
-      flash.now[:notice6]='('+ @bidding_detail.length.to_s + '/' + @num.length.to_s + ')'
+    if @win!=nil&&@win[:activity_id]== @bidlist[:activity_id]&&@win[:bid_name]== @bidlist[:name]
+      @win[:activity_id]== @bidlist[:activity_id]&&@win[:bid_name]== @bidlist[:name]
+      @bidding_detail = Bidding.all
+      @win1 = 'true'
     end
     @bidding_details=@bidding_detail
   end
-
 
   private
   def check_admin

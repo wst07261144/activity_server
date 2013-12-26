@@ -5,26 +5,30 @@
     %h1
       =@name
     %h3
-      =flash.now[:notice1]
-      =flash.now[:notice2]
-      =flash.now[:notice3]
-      =flash.now[:notice4]
-      =flash.now[:notice5]
-      =flash.now[:notice6]
+      -if @win.nil?||!(@win[:activity_id] == @bidlist[:activity_id]&&@win[:bid_name]== @bidlist[:name])
+        ='参与人数('
+        = @bidding_detail.length.to_s
+        ='/'
+        = @num.length.to_s+')'
+      -if @win1=='true'&&@win[:name]=='竞价无效'
+        本次竞价无效
+      -if @win1=='true'&&@win[:name]!='竞价无效'
+        ="获胜者:"+@win[:name]
+        ='出价:'+@win[:price]+'元'
+        ='手机号:'+@win[:phone]
     %br
     %br
   %br
-  %table(class="table table-hover table-bordered")
-    %thead
-      %tr
-        %th(style="text-align:center")
-          =@xingming
-        %th(style="text-align:center")
-          =@phone
-    %tbody
-      -@bidding_details.each do |t|
+  -if @win.nil?||!(@win[:activity_id] == @bidlist[:activity_id]&&@win[:bid_name]== @bidlist[:name])
+    %table(class="table table-hover table-bordered")
+      %thead
         %tr
-          %td(style="width:50%;text-align:center" valign="middle")
-            = t.name
-          %td(style="width:50%;text-align:center" valign="middle")
-            =t.phone
+          %th(style="text-align:center")姓名
+          %th(style="text-align:center")电话
+      %tbody
+        -@bidding_details.each do |t|
+          %tr
+            %td(style="width:50%;text-align:center" valign="middle")
+              = t.name
+            %td(style="width:50%;text-align:center" valign="middle")
+              =t.phone

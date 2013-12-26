@@ -16,9 +16,9 @@
 %div(style="background:#c0c0c0;text-align:center;padding:8px")
   -if @win.nil?
     %h3 活动正在进行中...
-  -if @win_failure == 'true'
+  -if !@win.nil?&&@win[:name]=='竞价无效'
     %h3 本次竞价无效
-  -if @win_success == 'true'
+  -if !@win.nil?&&@win[:name]!='竞价无效'
     %h4
       ='获胜者:'+@win.name
       ='出价:'+@win.price+'元'
