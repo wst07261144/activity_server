@@ -3,6 +3,7 @@ class AdminsController < ApplicationController
   before_action :check_login, only:[:add_account,:manage_index,:delete_account,:admin_modify_account_key]
 
   def add_account
+    @user = User.new
   end
 
   def manage_index

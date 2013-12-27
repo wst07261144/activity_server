@@ -11,7 +11,8 @@ class SessionsController < ApplicationController
   end
 
   def create
-    @user = User.find_by_name_and_password params[:session][:name], params[:session][:password]
+
+    @user = User.find_by_name_and_password_digest params[:session][:name], params[:session][:password]
     if !@user.nil?
     #user = User.find_by(name: params[:session][:name].downcase)
     #if user && user.authenticate(params[:session][:password])

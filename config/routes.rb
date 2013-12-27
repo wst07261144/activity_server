@@ -32,7 +32,7 @@ ActivityServer::Application.routes.draw do
   match '/reset_key1_check_account' =>'user#handle_reset_key1',via:'post'
   match '/reset_key2_check_question' =>'user#handle_reset_key2',via:'post'
   match "/reset_key3_to_reset_key"=>'user#handle_reset_key3' ,   via:'post'
-  match "/add_account"=>"user#judge_input_legal1" ,           via:'post'
+  match "/add_account"=>"user#admin_create" ,           via:'post'
 
   match "/user/:id/admin_modify_account_key"=>"admins#admin_modify_key",via:'post'
   match '/shows/show'=>'sessions#create',via:'post'
