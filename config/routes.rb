@@ -1,6 +1,8 @@
 ActivityServer::Application.routes.draw do
 
   root 'sessions#login'
+  get 'sessions/admin_scan'
+  get 'manage_index/:name',:as=>'activity' ,:controller=>'admins',:action=>'admin_scan'
   match '/shows/show'=> 'shows#show',via:'get'
   match '/register' =>'user#register',via:'get'
   match '/sessions/login'=>'sessions#login',via:'get'
@@ -16,8 +18,6 @@ ActivityServer::Application.routes.draw do
 
   match "/sessions/activity_show"=>'sessions#activity_show',via:'get'
   match '/shows/activity_show' ,to:'shows#activity_show',via:'get'
-  get 'sessions/admin_scan'
-  get 'manage_index/:name',:as=>'activity' ,:controller=>'admins',:action=>'admin_scan'
   match '/',to:'sessions#create', via:'post'
   match '/sessions/process_clients_login' ,to:'sessions#process_clients_login',via:'post'
   match '/sessions/process_synchronous',to:'sessions#process_synchronous',via:'post'

@@ -10,7 +10,8 @@ module UserHelper
   def get_params(params)
     return {:name => session[:account],:password=>params[:user][:password],
             :password_confirmation=> params[:user][:password_confirmation],
-            :question=>session[:question], :answer=>session[:answer]}
+            :question=>session[:question], :answer=>session[:answer],
+            :admin=>'false'}
   end
 
   def delete_user

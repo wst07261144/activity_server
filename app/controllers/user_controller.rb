@@ -51,6 +51,7 @@ class UserController < ApplicationController
 
   def create
     @user = User.new(user_params)
+    @user[:admin]='false'
     if @user.save
       session[:current_user_id]= @user.id
       redirect_to '/shows/show'
@@ -61,9 +62,9 @@ class UserController < ApplicationController
 
   def admin_create
     @user = User.new(user_params)
+    @user[:admin]='false'
     if @user.save
-      session[:current_user_id]= @user.id
-      redirect_to '/shows/show'
+      redirect_to '/manage_index'
     else
       render 'register'
     end

@@ -20,13 +20,13 @@
     =form_for(:user) do |f|
       .input-prepend
         = f.label :'请设置密码' ,:class=>"add-on"
-        = f.text_field :password1 ,:type=>"password",:placeholder=>"请输入新密码"
+        = f.text_field :password ,:type=>"password",:placeholder=>"请输入新密码"
       .input-prepend
         = f.label :'请确认密码' ,:class=>"add-on"
-        = f.text_field :password2 ,:type=>"password",:placeholder=>"请再次输入"
-      .label-warning
-        =flash.now[:notice1]
-        =flash.now[:notice2]
+        = f.text_field :password_confirmation ,:type=>"password",:placeholder=>"请再次输入"
+      -if @new_user.errors.any?
+        .btn-danger.active
+          = @new_user.errors.full_messages.first
       %div(style="text-align:center;")
       %br
         = f.submit "确认修改", class: "btn btn-primary"

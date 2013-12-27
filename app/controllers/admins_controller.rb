@@ -1,5 +1,5 @@
 class AdminsController < ApplicationController
-
+  include UserHelper
   before_action :check_login, only:[:add_account,:manage_index,:delete_account,:admin_modify_account_key]
 
   def add_account
@@ -13,6 +13,8 @@ class AdminsController < ApplicationController
   end
 
   def admin_modify_account_key
+    @new_user = User.new
+    session[:name]= User.find(params[:id])[:name]
     @name=User.find(params[:id]).name
   end
 
@@ -29,22 +31,17 @@ class AdminsController < ApplicationController
   end
 
   def admin_modify_key
-    if params[:user][:password1].empty?||params[:user][:password2].empty?
-      flash.now[:notice2]="请将密码填写完整"
-      render 'admin_modify_account_key'
+    @user = User.find_by_name session[:name]
+    if @user!=nil
+      update_session(@user)
+      @user.destroy
+    end
+    @new_user = User.new(get_params(params))
+    if @new_user.save
+      redirect_to '/manage_index'
     else
-      @name=User.find(params[:id]).name
-      if params[:user][:password1]==params[:user][:password2]
-        @user=User.find(params[:id])
-        @user.password=params[:user][:password1]
-        if @user.save
-          #render :text=> "密码修改成功"
-          redirect_to '/manage_index'
-        end
-      else
-        flash.now[:notice1]="两次密码输入不一致，请重新输入"
-        render "admin_modify_account_key"
-      end
+      @name=session[:account]
+      render "admin_modify_account_key"
     end
   end
 end
