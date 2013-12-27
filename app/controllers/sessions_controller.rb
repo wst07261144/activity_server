@@ -11,11 +11,8 @@ class SessionsController < ApplicationController
   end
 
   def create
-
-    @user = User.find_by_name_and_password_digest params[:session][:name], params[:session][:password]
-    if !@user.nil?
-    #user = User.find_by(name: params[:session][:name].downcase)
-    #if user && user.authenticate(params[:session][:password])
+    @user = User.find_by(name: params[:session][:name])
+    if @user && @user.authenticate(params[:session][:password])
       sign_in(@user)
     else
       flash.now[:notice]= '用户名或者密码不正确'
@@ -30,13 +27,13 @@ class SessionsController < ApplicationController
   end
 
   def process_clients_login
-    @user = User.find_by_name_and_password params[:account], params[:key]
+    @user = User.find_by(name: params[:account])
     respond_to do |format|
-      if @user.nil?
-        format.json { render json: '帐号名或密码错误' }
-      else
-        format.json { render json: '登录成功' }
-      end
+    if @user && @user.authenticate( params[:key])
+      format.json { render json: '登录成功' }
+    else
+      format.json { render json: '帐号名或密码错误' }
+     end
     end
   end
 
