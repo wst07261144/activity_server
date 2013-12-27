@@ -1,6 +1,7 @@
 source 'http://ruby.taobao.org'
+
 ruby '2.0.0'
-gem 'bcrypt-ruby',  '3.1.2'
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.0'
 
@@ -30,10 +31,11 @@ gem 'jbuilder', '~> 1.2'
 
 gem 'haml'
 
-
 gem "activerecord-session_store"
 
 gem 'will_paginate'
+
+gem 'rails-i18n'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
@@ -41,7 +43,7 @@ group :doc do
 end
 
 # Use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.0.0'
+gem 'bcrypt-ruby', '~> 3.0.0'
 
 # Use unicorn as the app server
 # gem 'unicorn'

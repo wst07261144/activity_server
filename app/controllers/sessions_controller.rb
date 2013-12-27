@@ -13,6 +13,8 @@ class SessionsController < ApplicationController
   def create
     @user = User.find_by_name_and_password params[:session][:name], params[:session][:password]
     if !@user.nil?
+    #user = User.find_by(name: params[:session][:name].downcase)
+    #if user && user.authenticate(params[:session][:password])
       sign_in(@user)
     else
       flash.now[:notice]= '用户名或者密码不正确'

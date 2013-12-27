@@ -13,20 +13,23 @@
         = f.text_field :name ,:type=>"text"
       .input-prepend
         = f.label :'请设置密码' ,:class=>"add-on",:style=>"width:100px"
-        = f.text_field :password1 ,:type=>"password"
+        = f.text_field :password ,:type=>"password"
       .input-prepend
         = f.label :'请确认密码' ,:class=>"add-on",:style=>"width:100px"
-        = f.text_field :password2 ,:type=>"password"
+        = f.text_field :password_confirmation ,:type=>"password"
       .input-prepend
         = f.label :'忘记密码问题' ,:class=>"add-on",:style=>"width:100px"
         = f.text_field :question ,:type=>"text"
       .input-prepend
         = f.label :'忘记密码答案' ,:class=>"add-on",:style=>"width:100px"
         = f.text_field :answer ,:type=>"text"
-      .label-warning
-        =flash.now[:notice1]
-        =flash.now[:notice2]
-        =flash.now[:notice3]
-      %div(style="text-align:center;")
+      %div(class=" btn-danger active" )
+        -if @user.errors.any?
+          = @user.errors.full_messages.first
       %br
+      %div(style="text-align:center;")
         = f.submit "注  册", class: "btn btn-primary"
+
+
+
+

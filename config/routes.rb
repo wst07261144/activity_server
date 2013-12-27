@@ -28,9 +28,7 @@ ActivityServer::Application.routes.draw do
   match '/www/sessions/process_synchronous',to:'sessions#process_synchronous',via:'post'
   match "/www/sessions/activity_show",to:'sessions#activity_show',via:'post'
 
-
-
-  match '/register' =>'user#judge_input_legal',via:'post'
+  match '/register' =>'user#create',via:'post'
   match '/reset_key1_check_account' =>'user#handle_reset_key1',via:'post'
   match '/reset_key2_check_question' =>'user#handle_reset_key2',via:'post'
   match "/reset_key3_to_reset_key"=>'user#handle_reset_key3' ,   via:'post'
