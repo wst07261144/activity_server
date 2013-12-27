@@ -15,6 +15,7 @@ class UserController < ApplicationController
   end
 
   def reset_key3_to_reset_key
+    @user = User.new
   end
 
   def handle_reset_key1
@@ -39,17 +40,12 @@ class UserController < ApplicationController
   end
 
   def handle_reset_key3
-    if params[:user][:password] == params[:user][:password_confirmation]
-      @user=User.find_by_name session[:account]
-      @user.password_digest= params[:user][:password]
-      if @user.save
-        redirect_to root_path
-      else
-        render 'reset_key3_to_reset_key'
-      end
+    delete_user
+    @user = User.new(get_params(params))
+    if @user.save
+      redirect_to root_path
     else
-      @err_msg='true'
-      render "reset_key3_to_reset_key"
+      render 'reset_key3_to_reset_key'
     end
   end
 

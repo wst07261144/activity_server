@@ -16,9 +16,10 @@
         = f.label :'请确认密码' ,:class=>"add-on"
         = f.text_field :password_confirmation ,:type=>"text",:placeholder=>"请再次输入"
       %br
-      -if @err_msg=='true'
-        .btn-danger.active 两次密码输入不一致，请重新输入
-      %br
+      -if @user.errors.any?
+        .btn-danger.active
+          = @user.errors.full_messages.first
+        %br
       %div(style="text-align:center")
         = f.submit "确认修改", :class=> "btn btn-primary"
       %br
