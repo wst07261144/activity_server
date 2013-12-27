@@ -12,8 +12,8 @@
         = f.label :'帐   号' ,:class=>"add-on"
         = f.text_field :name ,:type=>"text",:placeholder=>"请输入帐号名"
       %br
-        .label-warning
-          =flash.now[:notice4]
+      -if @err_msg == 'true'
+        .btn-danger.active 该账户名不存在
       %br
       %div(style="text-align:center")
         = f.submit "下 一 步", :class=> "btn btn-primary"

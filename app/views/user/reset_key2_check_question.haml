@@ -16,8 +16,8 @@
         = f.label :'忘记密码答案' ,:class=>"add-on"
         = f.text_field :answer ,:type=>"text"
       %br
-      .label-warning
-        =flash.now[:notice5]
+      -if @err_msg=='true'
+        .btn-danger.active  忘记密码答案错误
       %br
       %div(style="text-align:center")
         = f.submit "下 一 步", :class=> "btn btn-primary"

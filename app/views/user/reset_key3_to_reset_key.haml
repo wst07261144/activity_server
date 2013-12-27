@@ -10,15 +10,14 @@
     =form_for(:user) do |f|
       .input-prepend
         = f.label :'请设置密码' ,:class=>"add-on"
-        = f.text_field :password1 ,:type=>"text",:placeholder=>"请输入新密码"
+        = f.text_field :password ,:type=>"text",:placeholder=>"请输入新密码"
       %br
       .input-prepend
         = f.label :'请确认密码' ,:class=>"add-on"
-        = f.text_field :password2 ,:type=>"text",:placeholder=>"请再次输入"
+        = f.text_field :password_confirmation ,:type=>"text",:placeholder=>"请再次输入"
       %br
-        .label-warning
-          =flash.now[:notice6]
-          =flash.now[:notice7]
+      -if @err_msg=='true'
+        .btn-danger.active 两次密码输入不一致，请重新输入
       %br
       %div(style="text-align:center")
         = f.submit "确认修改", :class=> "btn btn-primary"
