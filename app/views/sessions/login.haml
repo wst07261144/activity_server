@@ -18,10 +18,10 @@
         %div(style="text-align:center;")
           %br
           = f.submit "登  录", class: "btn btn-primary"
-    .label-warning
+    -if @err == 'true'
+      .btn-danger.active 用户名或者密码不正确
+    .btn-danger.active
       =flash[:notice0]
-      =flash.now[:notice]
-
   .nav-header
     .right
       =link_to  "忘记密码", reset_key1_check_account_path

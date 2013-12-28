@@ -15,7 +15,7 @@ class SessionsController < ApplicationController
     if @user && @user.authenticate(params[:session][:password])
       sign_in(@user)
     else
-      flash.now[:notice]= '用户名或者密码不正确'
+      @err = 'true'
       render '/sessions/login'
     end
   end
