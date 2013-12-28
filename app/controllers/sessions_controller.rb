@@ -30,9 +30,9 @@ class SessionsController < ApplicationController
     @user = User.find_by(name: params[:account])
     respond_to do |format|
     if @user && @user.authenticate( params[:key])
-      format.json { render json: '登录成功' }
+      format.json { render json: 'true' }
     else
-      format.json { render json: '帐号名或密码错误' }
+      format.json { render json: 'false' }
      end
     end
   end
@@ -45,9 +45,9 @@ class SessionsController < ApplicationController
     Winner.synchronous_winners(params)
     respond_to do |format|
       if check_synchronous_success(params)=='true'
-        format.json { render json: '同步成功' }
+        format.json { render json: 'true' }
       else
-        format.json { render json: '同步失败，请重新同步' }
+        format.json { render json: 'false' }
       end
     end
   end
