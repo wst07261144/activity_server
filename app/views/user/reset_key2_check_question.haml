@@ -1,11 +1,6 @@
 %h2 活动通
-%div(style="background:#F5F5F5" class="modal fade in")
-  .nav-header
-    %h4重置密码
-    .right
-      =link_to  "用户登录",root_path
-  %br
-  %br
+%div(class="modal fade in grey")
+  = render 'modify_password_header'
   %div(class="index-login" style="text-align:center;")
     .input-prepend
       .add-on
