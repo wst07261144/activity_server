@@ -1,9 +1,4 @@
-.nav-header1
-  .right
-    %p1
-      %lable 你好,admin
-    =link_to  "退出",:action => 'logout',:controller => 'sessions'
-%h2 活动通
+= render 'header'
 %div(style="background:#F5F5F5;padding:8px")
   =link_to '首页',:action => 'manage_index'
   %lable /添加用户

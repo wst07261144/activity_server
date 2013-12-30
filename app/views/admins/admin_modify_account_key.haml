@@ -1,21 +1,14 @@
-.nav-header1
-  .right
-    %p1
-      %lable 你好,
-      %lable admin
-
-    =link_to  "退出",:action => 'logout',:controller => 'sessions'
-%h2 活动通
+= render 'header'
 %div(style="background:#F5F5F5;padding:8px")
   =link_to '首页',:action => 'manage_index'
   %lable /修改用户密码
-%div(style="background:#F5F5F5;position: relative;" class="modal1")
+%div( class="modal1 grey position-")
   %br
   %br
-  %div(class="index-login" style="text-align:center;")
+  %div(class="index-login center ")
     .input-prepend
       .add-on
-        %span(style='width:0px') 用 户 帐 号
+        %span 用 户 帐 号
       %input(type="text" placeholder=@name   disabled)
     =form_for(:user) do |f|
       .input-prepend
