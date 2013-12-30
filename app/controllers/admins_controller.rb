@@ -1,4 +1,5 @@
 class AdminsController < ApplicationController
+
   include UserHelper
   before_action :check_login, only:[:add_account,:manage_index,:delete_account,:admin_modify_account_key]
 
@@ -16,7 +17,7 @@ class AdminsController < ApplicationController
   def admin_modify_account_key
     @new_user = User.new
     @name = User.find(session[:current_user_id])[:name]
-    session[:name]= User.find(params[:id])[:name]
+    session[:name]= @name
     @name=User.find(params[:id]).name
   end
 
