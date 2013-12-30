@@ -1,16 +1,9 @@
-.nav-header1
-  .right
-    %p1
-      %lable 你好,
-      %lable
-      =@user.name
-    =link_to  "退出",'/sessions/logout'
-%h2 活动通
+= render 'display_header'
 %div(style="background:#F5F5F5;padding:8px")
   =link_to '首页' ,:action => 'show'
   %lable /报名列表
 %br
-%div(class='yuanjiao'style="margin:auto;width:79%;background:#c0c0c0;padding:1px")
+%div(class='title-bar')
   %h4
     报名列表
     .right-padding1

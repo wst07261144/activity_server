@@ -18,11 +18,18 @@
   float: left;
   padding-left:50px
 }
-.yuanjiao{
+.title-bar{
   border-top-left-radius:10px;
   border-top-right-radius:10px;
+  margin:auto;
+  width:79%;
+  background:#c0c0c0;
+  padding:1px
 }
-
+.form-width{
+  text-align:center;
+  width:50%
+}
 .modal1 {
   top: 10%;
   left: 50%;

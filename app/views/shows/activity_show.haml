@@ -1,5 +1,5 @@
 %meta(http-equiv="refresh" content="3" URL="/sessions/activity_show")
-%div(class="container" style="width:80%")
+%div(class="container")
   %div(style="background:#f5f5f5;text-align:center" )
     %br
     %h1
@@ -22,13 +22,13 @@
   -if @win.nil?||!(@win[:activity_id] == @bidlist[:activity_id]&&@win[:bid_name]== @bidlist[:name])
     %table(class="table table-hover table-bordered")
       %thead
-        %tr
-          %th(style="text-align:center")姓名
-          %th(style="text-align:center")电话
+        %tr(style="text-align:center")
+          %th 姓名
+          %th 电话
       %tbody
         -@bidding_details.each do |t|
-          %tr
-            %td(style="width:50%;text-align:center" valign="middle")
+          %tr(style="width:50%;text-align:center" valign="middle")
+            %td
               = t.name
-            %td(style="width:50%;text-align:center" valign="middle")
+            %td
               =t.phone
