@@ -1,42 +1,34 @@
-function BidSignUpController($scope, $navigate,$http) {
+function BidSignUpController($scope, $navigate, $http) {
 
-    (function(){
+    (function () {
         Bid.find_current_bid_status()
     })()
 
     $scope.selection = localStorage.getItem("bid_status_temp");
     $scope.order3 = '-create_time3'
 
-
-    $scope.data_refresh=function() {
+    $scope.data_refresh = function () {
         $scope.person_bid_names = Bidding.add_names_for_bidding()
-        var turtle_data =[_.last(Activity.find_bids()), _.last( Activity.find_bid_list())
-            , _.last( Activity.find_win())]
-        var turtle_url = "/sessions/save_bid"
-        console.log(JSON.stringify(turtle_data))
-        $http({ method: 'post',  url: turtle_url ,data:turtle_data})
-            .success(function(status){ console.log('1');localStorage.new_bid==''})
-            .error(function(status) {console.log('2')})
-        $scope.bid_number =Bidding.get_num()
+        $http({ method: 'post', url: "/sessions/save_bid", data: Bidding.get_update_data()})
+            .success(function (status) {  console.log('1') })
+            .error(function (status) {  console.log('2') })
+        $scope.bid_number = Bidding.get_num()
     }
 
-    $scope.sign_up_to_running=function(){
+    $scope.sign_up_to_running = function () {
         Bid.change_to_running()
         $scope.selection = "running";
     }
 
-    $scope.sign_up_to_ran=function(){
+    $scope.sign_up_to_ran = function () {
 
         if (window.confirm("确实要结束本次竞价吗？")) {
             Bid.make_some_mark_to_local()
             Bid.save_all_bid_status();
             Bidding.render_biddings();
-            var turtle_data =[_.last(Activity.find_bids()), _.last( Activity.find_bid_list())
-                , _.last( Activity.find_win())]
-            var turtle_url = "/sessions/save_bid"
-            $http({ method: 'post',  url: turtle_url ,data:turtle_data})
-                .success(function(status){ console.log('1')})
-                .error(function(status) {console.log('2')})
+            $http({ method: 'post', url: "/sessions/save_bid", data: Bidding.get_update_data()})
+                .success(function (status) { console.log('1') })
+                .error(function (status) { console.log('2') })
             $scope.selection = "ran";
             $navigate.go("/bid_result");
         }

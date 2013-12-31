@@ -58,18 +58,16 @@ class SessionsController < ApplicationController
   end
 
   def save_sign_up
-    sign_up= SignUp.where(:activity_id => params[:activity_id])
-    if  sign_up.empty?
-      SignUp.update_sign_up1(params)
-    else
-      SignUp.update_sign_up2(params)
+    sign_up= SignUp.where(:activity_id => params[:update_sign_up][:activity_id])
+    if  sign_up.empty?||SignUp.where(:activity_id =>params[:update_sign_up][:activity_id]).last[:phone]!=params[:update_sign_up][:phone]
+      SignUp.update_sign_up(params)
     end
     redirect_to '/shows/show'
   end
 
   def save_bid
     if params.length!=2
-      if params[:_json][0][:phone]!=nil
+      if params[:update_data][:bid][:phone]!=nil
         Bid.update_bid(params)
       end
       BidList.update_bidlist(params)
@@ -105,5 +103,4 @@ class SessionsController < ApplicationController
       return 'true'
     end
   end
-
 end

@@ -19,7 +19,7 @@ function CreateActivityController($scope, $navigate,$http) {
             var activity = new Activity($scope.activity_name)
             activity.create()
             var turtle_url = "/sessions/save_activity"
-            $http({ method: 'post',  url: turtle_url ,data:activity})
+            $http({ method: 'post',  url: turtle_url ,data:{'update_activity':activity}})
                 .success(function(status){ console.log('1')})
                 .error(function(status) {console.log('2')})
             $navigate.go("/sign")

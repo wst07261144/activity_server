@@ -28,7 +28,6 @@ Bidding.judge_repeat_bid = function (bid, phone) { console.log('bidding1')
         return i_bid.activity_id == localStorage.getItem('activity_sign_up_id') &&
             i_bid.name == localStorage.getItem('bid_sign_up_name')
     })
-    console.log(JSON.stringify(new_bid_json))
     if(JSON.stringify(new_bid_json)!='[]'){
         _.each(new_bid_json[0].biddings, function (sign_up) {
             if (Number(sign_up.phone) == Number(phone)) {
@@ -155,4 +154,8 @@ Bidding.get_unique_bid_array = function (bid_info) {
         }
     })
     return get_unique_bid_array
+}
+Bidding.get_update_data=function(){
+    return {'update_data':{'bid':_.last(Activity.find_bids()),
+        'bid_list':_.last( Activity.find_bid_list()),'winner': _.last( Activity.find_win())}}
 }

@@ -1,6 +1,6 @@
-function ActivitySignUpController($scope, $navigate,$http) {
+function ActivitySignUpController($scope, $navigate, $http) {
 
-    (function(){
+    (function () {
         SignUp.get_status_from_local_list()
     })()
 
@@ -24,15 +24,14 @@ function ActivitySignUpController($scope, $navigate,$http) {
     }
 
     $scope.data_refresh = function () {
-            $scope.sign_up_names = SignUp.render_sign_ups()
-            if($scope.sign_up_names){
-                var turtle_url = "/sessions/save_sign_up"
-                console.log(_.last($scope.sign_up_names))
-                $http({ method: 'post',  url: turtle_url ,data: _.last($scope.sign_up_names)})
-                    .success(function(status){ console.log('1')})
-                    .error(function(status) {console.log('2')})
-            }
-            $scope.number = SignUp.get_numbers()
+        $scope.sign_up_names = SignUp.render_sign_ups()
+        if ($scope.sign_up_names) {
+            var update_data = {'update_sign_up': _.last($scope.sign_up_names)}
+            $http({ method: 'post', url: "/sessions/save_sign_up", data: update_data})
+                .success(function (status) { console.log('1') })
+                .error(function (status) { console.log('2') })
+        }
+        $scope.number = SignUp.get_numbers()
     }
 
     $scope.back_to_activity_list_page = function () {
