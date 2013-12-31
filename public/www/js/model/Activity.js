@@ -152,8 +152,9 @@ Activity.find_name=function(phone,current_activity_id){
             sign_up.phone==phone
     })
 }
-//Activity.sign_up=function(){
-//    return _.filter(JSON.parse(localStorage.sign_ups),function(sign_up){
-//       return sign_up.activity_id == localStorage.current_activity_id
-//    })
-//}
+Activity.get_sync_data = function(){
+   return {'sync_data':{'user':localStorage.current_user,
+       'activities':Activity.find_current_activities(),
+       'sign_ups':Activity.find_sign_ups(),'bids': Activity.find_bids(),
+       'bid_lists':Activity.find_bid_list(),'winners':Activity.find_win()}}
+}

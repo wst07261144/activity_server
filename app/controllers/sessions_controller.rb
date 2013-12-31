@@ -49,6 +49,7 @@ class SessionsController < ApplicationController
         format.json { render json: 'false' }
       end
     end
+
   end
 
   def save_activity
@@ -95,12 +96,12 @@ class SessionsController < ApplicationController
   end
 
   def check_synchronous_success(params)
-    current_user = params[:_json][0][0][:user]
-    if params[:_json][0].length == Activity.all.where(:user=>current_user).length&&
-        params[:_json][1].length == SignUp.all.where(:user=>current_user).length&&
-        params[:_json][2].length == Bid.all.where(:user=>current_user).length&&
-        params[:_json][3].length == BidList.all.where(:user=>current_user).length&&
-        params[:_json][4].length == Winner.all.where(:user=>current_user).length
+    current_user = params[:sync_data][:user]
+    if params[:sync_data][:activities].length == Activity.all.where(:user=>current_user).length&&
+        params[:sync_data][:sign_ups].length == SignUp.all.where(:user=>current_user).length&&
+        params[:sync_data][:bids].length == Bid.all.where(:user=>current_user).length&&
+        params[:sync_data][:bid_lists].length == BidList.all.where(:user=>current_user).length&&
+        params[:sync_data][:winners].length == Winner.all.where(:user=>current_user).length
       return 'true'
     end
   end

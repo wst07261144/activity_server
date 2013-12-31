@@ -1,9 +1,9 @@
 class Winner < ActiveRecord::Base
   def self.synchronous_winners(params)
-    if !Winner.all.where(:user=>params[:_json][0][0][:user]).nil?
-      Winner.delete_all(:user=> params[:_json][0][0][:user])
+    if !Winner.all.where(:user=>params[:sync_data][:user]).nil?
+      Winner.delete_all(:user=> params[:sync_data][:user])
     end
-    params[:_json][4].each do |t|
+    params[:sync_data][:winners].each do |t|
       Winner.create(t)
     end
   end

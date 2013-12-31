@@ -19,10 +19,7 @@ function ActivityListController($scope, $navigate,$http) {
 
     }
     $scope.synchronous=function(){
-
-        var turtle_data = [Activity.find_current_activities(),Activity.find_sign_ups(),
-            Activity.find_bids(),Activity.find_bid_list(),Activity.find_win()]
-        //  var turtle_url = "http://192.168.1.132:3000/sessions/process_clients_login"
+        var turtle_data = Activity.get_sync_data()
         var turtle_url = "sessions/process_synchronous"
         $http({ method: 'post',  url: turtle_url ,data:turtle_data})
             .success(function(respond) {
@@ -32,4 +29,4 @@ function ActivityListController($scope, $navigate,$http) {
 
     }
 }
-
+//  var turtle_url = "http://192.168.1.132:3000/sessions/process_clients_login"

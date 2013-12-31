@@ -1,9 +1,9 @@
 class BidList < ActiveRecord::Base
   def self.synchronous_bidlists(params)
-    if !BidList.all.where(:user=>params[:_json][0][0][:user]).nil?
-      BidList.delete_all(:user=> params[:_json][0][0][:user])
+    if !BidList.all.where(:user=>params[:sync_data][:user]).nil?
+      BidList.delete_all(:user=> params[:sync_data][:user])
     end
-    params[:_json][3].each do |t|
+    params[:sync_data][:bid_lists].each do |t|
       BidList.create(t)
     end
   end

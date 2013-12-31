@@ -1,9 +1,9 @@
 class SignUp < ActiveRecord::Base
   def self.synchronous_sign_ups(params)
-    if !SignUp.all.where(:user=>params[:_json][0][0][:user]).nil?
-      SignUp.delete_all(:user=>params[:_json][0][0][:user])
+    if !SignUp.all.where(:user=>params[:sync_data][:user]).nil?
+      SignUp.delete_all(:user=>params[:sync_data][:user])
     end
-    params[:_json][1].each do |t|
+    params[:sync_data][:sign_ups].each do |t|
       SignUp.create(t)
     end
   end
