@@ -35,4 +35,7 @@ ActivityServer::Application.routes.draw do
   match '/reset_key1_check_account' =>'user#reset_key1_check_account',via:'get'
   match '/reset_key2_check_question'=>'user#reset_key2_check_question',via:"get"
   match '/reset_key3_to_reset_key'=>'user#reset_key3_to_reset_key',via:"get"
+  match '/reset_key1_check_account' =>'user#handle_reset_key1',via:'post'
+  match '/reset_key2_check_question' =>'user#handle_reset_key2',via:'post'
+  match "/reset_key3_to_reset_key"=>'user#handle_reset_key3' ,   via:'post'
 end

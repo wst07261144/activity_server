@@ -1,6 +1,5 @@
 class UserController < ApplicationController
 
-  include UserHelper
   before_action :check_login ,only: [:admin_create]
 
   def register
@@ -40,7 +39,7 @@ class UserController < ApplicationController
   end
 
   def handle_reset_key3
-    delete_user
+    User.delete_user(session[:account])
     @user = User.new(get_params(params))
     if @user.save
       redirect_to root_path
@@ -68,6 +67,20 @@ class UserController < ApplicationController
     else
       render 'register'
     end
+  end
+
+  def update_session(user)
+    session[:answer]=user.answer
+    session[:account]= user.name
+    session[:question] = user.question
+    session[:password] = user.password_digest
+  end
+
+  def get_params(params)
+    return {:name => session[:account],:password=>params[:user][:password],
+            :password_confirmation=> params[:user][:password_confirmation],
+            :question=>session[:question], :answer=>session[:answer],
+            :admin=>'false'}
   end
 
   private
