@@ -34,6 +34,7 @@ gem 'haml'
 gem "activerecord-session_store"
 
 gem 'will_paginate'
+gem 'bootstrap-will_paginate'
 
 gem 'rails-i18n'
 
