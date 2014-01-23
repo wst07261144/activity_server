@@ -16,4 +16,18 @@ module ShowsHelper
       return msg4+msg5+msg6
     end
   end
+  def show_activity_situation
+    if @win.nil?
+      return "活动正在进行中"
+    end
+    if !@win.nil?&&@win[:name]=='竞价无效'
+      return '本次竞价无效'
+    end
+    if !@win.nil?&&@win[:name]!='竞价无效'
+      msg1='获胜者:'+@win.name
+      msg2='出价:'+@win.price+'元'
+      msg3='手机号:'+@win.phone
+      return  msg1+msg2+msg3
+    end
+  end
 end
