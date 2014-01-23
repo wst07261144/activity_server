@@ -1,14 +1,14 @@
 class SignUp < ActiveRecord::Base
-  def self.synchronous_sign_ups(params)
-    if !SignUp.all.where(:user => params[:sync_data][:user]).nil?
-      SignUp.delete_all(:user => params[:sync_data][:user])
+  def self.synchronous_sign_ups(user,sign_ups)
+    if !SignUp.all.where(:user => user).nil?
+      SignUp.delete_all(:user => user)
     end
-    params[:sync_data][:sign_ups].each do |t|
-      SignUp.create(t)
+    sign_ups.each do |sign_up|
+      SignUp.create(sign_up)
     end
   end
 
-  def self.update_sign_up(params)
-    SignUp.create(params[:update_sign_up].permit!)
+  def self.update_sign_up(sign_up)
+    SignUp.create(sign_up)
   end
 end

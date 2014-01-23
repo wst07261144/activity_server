@@ -1,16 +1,16 @@
 class Bid < ActiveRecord::Base
-  def self.synchronous_bids(params)
-    if !Bid.all.where(:user => params[:sync_data][:user]).nil?
-      Bid.delete_all(:user => params[:sync_data][:user])
+  def self.synchronous_bids(user,bids)
+    if !Bid.all.where(:user => user).nil?
+      Bid.delete_all(:user => user)
     end
-    params[:sync_data][:bids].each do |t|
-      Bid.create(t)
+    bids.each do |bid|
+      Bid.create(bid)
     end
   end
 
-  def self.update_bid(params)
-    if params[:update_data][:bid][:phone] !=Bid.last[:phone]||params[:update_data][:bid][:bid_name] !=Bid.last[:bid_name]
-      Bid.create(params[:update_data][:bid].permit!)
+  def self.update_bid(bid)
+    if bid[:phone] !=Bid.last[:phone]|| bid[:bid_name] !=Bid.last[:bid_name]
+      Bid.create(bid)
     end
   end
 end

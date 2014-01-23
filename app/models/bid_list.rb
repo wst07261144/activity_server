@@ -1,17 +1,16 @@
 class BidList < ActiveRecord::Base
-  def self.synchronous_bidlists(params)
-    if !BidList.all.where(:user => params[:sync_data][:user]).nil?
-      BidList.delete_all(:user => params[:sync_data][:user])
+  def self.synchronous_bidlists(user,bid_lists)
+    if !BidList.all.where(:user => user).nil?
+      BidList.delete_all(:user => user)
     end
-    params[:sync_data][:bid_lists].each do |t|
-      BidList.create(t)
+    bid_lists.each do |bid_list|
+      BidList.create(bid_list)
     end
   end
 
-  def self.update_bidlist(params)
-    if params[:update_data][:bid_list][:activity_id] !=BidList.last[:activity_id]||
-        params[:update_data][:bid_list][:name] !=BidList.last[:name]
-      BidList.create(params[:update_data][:bid_list].permit!)
+  def self.update_bidlist(bid_list)
+    if bid_list[:activity_id] !=BidList.last[:activity_id]|| bid_list[:name] !=BidList.last[:name]
+      BidList.create(bid_list)
     end
   end
 end

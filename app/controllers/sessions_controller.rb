@@ -37,11 +37,11 @@ class SessionsController < ApplicationController
   end
 
   def process_synchronous
-    Activity.synchronous_activities(params)
-    SignUp.synchronous_sign_ups(params)
-    Bid.synchronous_bids(params)
-    BidList.synchronous_bidlists(params)
-    Winner.synchronous_winners(params)
+    Activity.synchronous_activities(params[:sync_data][:user],params[:sync_data][:activities])
+    SignUp.synchronous_sign_ups(params[:sync_data][:user],params[:sync_data][:sign_ups])
+    Bid.synchronous_bids(params[:sync_data][:user],params[:sync_data][:bids])
+    BidList.synchronous_bidlists(params[:sync_data][:user],params[:sync_data][:bid_lists])
+    Winner.synchronous_winners(params[:sync_data][:user],params[:sync_data][:winners])
     respond_to do |format|
       if check_synchronous_success(params)=='true'
         format.json { render json: 'true' }
@@ -53,14 +53,14 @@ class SessionsController < ApplicationController
   end
 
   def save_activity
-    Activity.update_activity(params)
+    Activity.update_activity(params[:update_activity][:id],params[:update_activity][:name],params[:update_activity][:user])
     redirect_to '/shows/show'
   end
 
   def save_sign_up
     sign_up= SignUp.where(:activity_id => params[:update_sign_up][:activity_id])
     if  sign_up.empty?||SignUp.where(:activity_id =>params[:update_sign_up][:activity_id]).last[:phone]!=params[:update_sign_up][:phone]
-      SignUp.update_sign_up(params)
+      SignUp.update_sign_up(params[:update_sign_up].permit!)
     end
     redirect_to '/shows/show'
   end
@@ -68,10 +68,12 @@ class SessionsController < ApplicationController
   def save_bid
     if params.length!=2
       if params[:update_data][:bid][:phone]!=nil
-        Bid.update_bid(params)
+        Bid.update_bid(params[:update_data][:bid].permit!)
       end
-      BidList.update_bidlist(params)
-      Winner.update_winner(params)
+      BidList.update_bidlist(params[:update_data][:bid_list].permit!)
+      if params[:update_data][:winner].present?
+        Winner.update_winner(params[:update_data][:winner].permit!)
+      end
     end
     redirect_to '/shows/show'
   end
