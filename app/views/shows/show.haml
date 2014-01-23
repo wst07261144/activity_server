@@ -12,12 +12,11 @@
       %td 报名人数
       %td 竞价次数
   %tbody
-    - counter = @counter
     -@activities.each do |t|
       %tr
         %td(align="center" style="width:25%" valign="middle")
-          = counter
-          -counter=counter+1
+          = @counter
+          -@counter=@counter+1
         %td(align="center" style="width:25%" valign="middle")
           =link_to t.name , bids_url(activity_id: t.activity_id)
         %td(align="center" style="width:25%" valign="middle")

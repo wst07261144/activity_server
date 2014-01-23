@@ -15,12 +15,11 @@
       %th 姓名
       %th 手机号
   %tbody
-    - counter= @counter
     -@sign_ups.each do |t|
       %tr
         %td(align="center" style="width:25%" valign="middle")
-          = counter
-          -counter=counter+1
+          = @counter
+          -@counter=@counter+1
         %td(align="center" style="width:25%" valign="middle")
           = t.name
         %td(align="center" style="width:25%" valign="middle")

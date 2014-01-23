@@ -32,12 +32,11 @@
             %th 价格/元
             %th 手机号
         %tbody
-          -counter =@counter
           -@bid_details.each do |t|
             %tr(style="text-align:center;width:25%" valign="middle")
               %td
-                = counter
-                -counter=counter+1
+                = @counter
+                -@counter = @counter+1
               %td
                 =t.name
               %td
