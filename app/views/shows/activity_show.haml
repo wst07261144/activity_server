@@ -5,17 +5,7 @@
     %h1
       =@name
     %h3
-      -if @win.nil?||!(@win[:activity_id] == @bidlist[:activity_id]&&@win[:bid_name]== @bidlist[:name])
-        ='参与人数('
-        = @bidding_detail.length.to_s
-        ='/'
-        = @num.length.to_s+')'
-      -if @win1=='true'&&@win[:name]=='竞价无效'
-        本次竞价无效
-      -if @win1=='true'&&@win[:name]!='竞价无效'
-        ="获胜者:"+@win[:name]
-        ='出价:'+@win[:price]+'元'
-        ='手机号:'+@win[:phone]
+      = show_bid_situation
     %br
     %br
   %br
