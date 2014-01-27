@@ -37,11 +37,13 @@ class SessionsController < ApplicationController
   end
 
   def process_synchronous
+    Activity.transaction do
     Activity.synchronous_activities(params[:sync_data][:user],params[:sync_data][:activities])
     SignUp.synchronous_sign_ups(params[:sync_data][:user],params[:sync_data][:sign_ups])
     Bid.synchronous_bids(params[:sync_data][:user],params[:sync_data][:bids])
     BidList.synchronous_bidlists(params[:sync_data][:user],params[:sync_data][:bid_lists])
     Winner.synchronous_winners(params[:sync_data][:user],params[:sync_data][:winners])
+    end
     respond_to do |format|
       if check_synchronous_success(params)=='true'
         format.json { render json: 'true' }
