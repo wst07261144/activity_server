@@ -36,7 +36,8 @@ SignUp.make_bid_sign_up_mark=function(){
 
 SignUp.save_all_activity_status = function() {
     var activities = JSON.parse(localStorage.getItem('activities'))
-    activities[localStorage.activity_sign_up_id].status = localStorage.activity_status_temp
+    var sign_up_id = localStorage.activity_sign_up_id || (parseInt(localStorage.activity_id_generator) - 1 )
+    activities[sign_up_id].status = localStorage.activity_status_temp
     localStorage.activities=JSON.stringify(activities)
 }
 
